@@ -9,12 +9,13 @@
         - Ultima modificacion:
     Clase que tiene como fin ser un
  */
-
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class Interprete {
     //---------------------------PROPIEDADES--------------------------
+    ArrayList<Variable> variables = new ArrayList<Variable>();
 
     //---------------------------METODOS------------------------------
     /*****************************************************************
@@ -59,11 +60,9 @@ public class Interprete {
             value = Integer.parseInt(matcher.group().trim());
         }
         
-        //Agregar la variable
-       Operacion asignacion = new Operacion();
-       asignacion.add(name, value.toString());
-       
-       return asignacion; 
+       //Instanciar la variable y agregarla al arreglo dinámico
+       Variable variable = new Variable(name, value.toString());
+       variables.add(variable);
     }
     //****************************************************************
 }
