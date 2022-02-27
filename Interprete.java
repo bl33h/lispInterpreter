@@ -65,4 +65,25 @@ public class Interprete {
        variables.add(variable);
     }
     //****************************************************************
+
+       /*****************************************************************
+     * operacion de adicion.
+     * @param expresion
+     */
+
+     // --- SUMA ---
+     private void addOperation(String expresion) {
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE);
+	    Matcher matcher = pattern.matcher(expresion);
+	    Integer total = 0;
+	    
+	    while (matcher.find()) {
+	    	total += Integer.parseInt(matcher.group().trim());
+	    }
+	    
+	    Variable miResult = new Variable();
+	    miResult.addResults(" suma ", "" + total);
+	    return miResult;
+	}
+    //****************************************************************
 }
