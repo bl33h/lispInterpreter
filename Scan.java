@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2022-2023, The_Kiesling FabianJuarez SaraEcheverria
- * FileName: View
+ * FileName: Scan
  * Author:   Fabian Juarez , Sara Echeverria , Jose Pablo Kiesling
  * Date:     26/02/2022
  * @author Jose Pablo Kiesling, Fabian Juarez y Sara Echeverria
@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Scan {
+    //---------------------------PROPIEDADES--------------------------
     ArrayList<String> tokens;
     //---------------------------METODOS------------------------------
     /*****************************************************************
@@ -26,6 +27,10 @@ public class Scan {
     }
     //****************************************************************
 
+    public void Bienvenida(){
+        System.out.println("Bienvenido a su interprete de lisp" + "\n" + "\n" + "Porfavor ingrese su operacion a realizar");
+    }
+
     /*****************************************************************
     /**
      * @return lectura
@@ -33,9 +38,7 @@ public class Scan {
     public String leer(){
         Scanner sc = new Scanner(System.in);
         String lectura = sc.nextLine();
-
         return lectura;
-
     }
     //****************************************************************
 

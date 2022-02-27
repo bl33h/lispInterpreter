@@ -12,6 +12,14 @@
 
 public class Controlador{
     public static void main(String[] args){
+        Scan sc = new Scan();
+        Interprete miInterprete = new Interprete();
+        
+        sc.Bienvenida();
+        String dato = sc.leer();
+        if(!dato.equalsIgnoreCase("exit")){
+            miInterprete.operate(dato, sc.obtenerTipo(dato));
+        }
 
     }
 }
