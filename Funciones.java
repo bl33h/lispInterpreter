@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2022-2023, The_Kiesling FabianJuarez SaraEcheverria
- * FileName: View
+ * FileName: Funciones
  * Author:   Fabian Juarez , Sara Echeverria , Jose Pablo Kiesling
  * Date:     26/02/2022
  * @author Jose Pablo Kiesling, Fabian Juarez y Sara Echeverria
@@ -10,5 +10,6 @@
     Clase que tiene como fin ser un
  */
 public class Funciones {
+    
     
 }
