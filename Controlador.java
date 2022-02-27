@@ -14,12 +14,15 @@ public class Controlador{
     public static void main(String[] args){
         Scan sc = new Scan();
         Interprete miInterprete = new Interprete();
+        Variable variable;
         
         sc.Bienvenida();
-        String dato = sc.leer();
-        if(!dato.equalsIgnoreCase("exit")){
-            miInterprete.operate(dato, sc.obtenerTipo(dato));
-        }
+        String dato = "";
+        do {
+            dato = sc.leer();
+            variable = miInterprete.operate(dato, sc.obtenerTipo(dato));
+            sc.escribir(variable.toString());
+        }while(!dato.equals("exit"));
 
     }
 }

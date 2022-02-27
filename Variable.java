@@ -44,4 +44,12 @@ public class Variable<T> {
         return this.name;
     }
     //****************************************************************
+
+    /*****************************************************************
+     * override de toString para mostrar la instancia
+     */
+    public String toString(){
+        return this.name + ": " + this.value;
+    }
+    //****************************************************************
 }

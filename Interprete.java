@@ -23,17 +23,20 @@ public class Interprete {
      * @param expresion
      * @param option
      */
-    public void operate(String expresion, int option){
+    public Variable operate(String expresion, int option){
         if (option == 1)
-            newIntVariable(expresion);
-        if (option == 2)
-            addOperation(expresion);
+            return newIntVariable(expresion);
+        else if (option == 2)
+            return addOperation(expresion);
+        else
+            return null;
+        /*
         if (option == 3)
             substractOperation(expresion);
         if (option == 4)
             multiplyOperation(expresion);
         if (option == 5)
-            divideOperation(expresion);
+            divideOperation(expresion);*/
         
     }
     //****************************************************************
@@ -42,7 +45,7 @@ public class Interprete {
      * crea una nueva variable entera
      * @param expresion
      */
-    private void newIntVariable(String expresion){
+    private Variable newIntVariable(String expresion){
         String name = "";
         Integer value = 0;
         
@@ -63,27 +66,40 @@ public class Interprete {
        //Instanciar la variable y agregarla al arreglo dinámico
        Variable variable = new Variable(name, value.toString());
        variables.add(variable);
+       return variable;
     }
     //****************************************************************
 
-       /*****************************************************************
+    /*****************************************************************
      * operacion de adicion.
      * @param expresion
      */
 
      // --- SUMA ---
-     private void addOperation(String expresion) {
+     private Variable addOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE);
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 0;
-	    
 	    while (matcher.find()) {
 	    	total += Integer.parseInt(matcher.group().trim());
 	    }
-	    
-	    Variable miResult = new Variable();
-	    miResult.addResults(" suma ", "" + total);
-	    return miResult;
+        
+        Variable result = new Variable("Resultado", total);
+        return result;
 	}
+    //****************************************************************
+
+    /*****************************************************************
+     * verifica si existe la variable
+     * @param name
+     * @return
+     */
+    private boolean verifyVariable(String name){
+        boolean flag = false;
+        for (int i = 0; i < variables.size() && flag; i++)
+            if (name.equals(variables.get(i).getName()))
+                flag = true;
+        return flag;
+    }
     //****************************************************************
 }
