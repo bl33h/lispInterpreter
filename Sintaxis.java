@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2022-2023, The_Kiesling FabianJuarez SaraEcheverria
- * FileName: View
+ * FileName: Sintaxis
  * Author:   Fabian Juarez , Sara Echeverria , Jose Pablo Kiesling
  * Date:     26/02/2022
  * @author Jose Pablo Kiesling, Fabian Juarez y Sara Echeverria
