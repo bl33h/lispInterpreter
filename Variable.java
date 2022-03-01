@@ -13,7 +13,7 @@
 public class Variable<T> {
     //---------------------------PROPIEDADES--------------------------
     private String name;
-    private T value;
+    private int value;
 
     //---------------------------METODOS------------------------------
     /*****************************************************************
@@ -21,7 +21,7 @@ public class Variable<T> {
      * @param name
      * @param value
      */
-    public Variable(String name, T value){
+    public Variable(String name, int value){
         this.name = name;
         this.value = value;
     }
@@ -31,7 +31,7 @@ public class Variable<T> {
      * retorna el valor de la variable
      * @return
      */
-    public T getValue(){
+    public int getValue(){
         return this.value;
     }
     //****************************************************************

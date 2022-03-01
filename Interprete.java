@@ -47,7 +47,7 @@ public class Interprete {
      */
     private Variable newIntVariable(String expresion){
         String name = "";
-        Integer value = 0;
+        int value = 0;
         
         //Nombre de la variable
         Pattern pattern = Pattern.compile("[ ]+[a-z]+[ ]+", Pattern.CASE_INSENSITIVE);
@@ -64,7 +64,7 @@ public class Interprete {
         }
         
        //Instanciar la variable y agregarla al arreglo dinámico
-       Variable variable = new Variable(name, value.toString());
+       Variable variable = new Variable(name, value);
        variables.add(variable);
        return variable;
     }
@@ -77,9 +77,23 @@ public class Interprete {
 
      // --- SUMA ---
      private Variable addOperation(String expresion) {
-		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE);
-	    Matcher matcher = pattern.matcher(expresion);
-	    Integer total = 0;
+        Integer total = 0;
+        String variable = "";
+
+        //Valores de variables
+        Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(expresion);
+        if (matcher.find()) {
+            variable = matcher.group().trim();
+        }
+
+        if(verifyVariable(variable) != null){
+            total += verifyVariable(variable).getValue();
+        }
+           
+        //Valores de constantes
+		pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+	    matcher = pattern.matcher(expresion);
 	    while (matcher.find()) {
 	    	total += Integer.parseInt(matcher.group().trim());
 	    }
@@ -94,12 +108,14 @@ public class Interprete {
      * @param name
      * @return
      */
-    private boolean verifyVariable(String name){
-        boolean flag = false;
-        for (int i = 0; i < variables.size() && flag; i++)
-            if (name.equals(variables.get(i).getName()))
-                flag = true;
-        return flag;
+    private Variable verifyVariable(String name){
+        Variable variable = null;
+        for (int i = 0; i < variables.size(); i++)
+            if (name.equals(variables.get(i).getName())){
+                variable = variables.get(i);
+                break;
+            }
+        return variable;
     }
     //****************************************************************
 }
