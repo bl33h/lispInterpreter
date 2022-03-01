@@ -28,11 +28,11 @@ public class Interprete {
             return newIntVariable(expresion);
         else if (option == 2)
             return addOperation(expresion);
+        else if (option == 3)
+            return substractOperation(expresion);
         else
             return null;
         /*
-        if (option == 3)
-            substractOperation(expresion);
         if (option == 4)
             multiplyOperation(expresion);
         if (option == 5)
@@ -59,7 +59,7 @@ public class Interprete {
         //Valor de la variable
         pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); 
         matcher = pattern.matcher(expresion);
-        if (matcher.find()) 
+        if (matcher.find())
             value = Integer.parseInt(matcher.group().trim());
         
         
@@ -76,7 +76,7 @@ public class Interprete {
      */
 
      // --- SUMA ---
-     private Variable addOperation(String expresion) {
+    private Variable addOperation(String expresion) {
         Integer total = 0;
         String variable = "";
         String[] parts = expresion.split(" ");
@@ -88,7 +88,7 @@ public class Interprete {
             //Valores de variables
             Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(parts[i]);
-            
+
             if (matcher.find()){
                 variable = matcher.group().trim();
                 if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
@@ -97,14 +97,51 @@ public class Interprete {
 
                     //Si se ingresa una variable incorrecta
                     if(verifyVariable(variable) == null)
-                        return null;  
-            }          
+                        return null;
+            }
         }
         //Valores de constantes
         Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(expresion);
-        while (matcher.find()) 
+        while (matcher.find())
             total += Integer.parseInt(matcher.group().trim());
+
+        Variable result = new Variable("Resultado", total);
+        return result;
+	}
+    //****************************************************************
+
+
+     // --- RESTA ---
+    private Variable substractOperation(String expresion) {
+        Integer total = 0;
+        String variable = "";
+        String[] parts = expresion.split(" ");
+
+        if (parts.length == 2)
+            return null;
+
+        for (int i = 0; i < parts.length; i++){
+            //Valores de variables
+            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(parts[i]);
+
+            if (matcher.find()){
+                variable = matcher.group().trim();
+                if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
+                    if(verifyVariable(variable) != null)
+                        total -= verifyVariable(variable).getValue();
+
+                    //Si se ingresa una variable incorrecta
+                    if(verifyVariable(variable) == null)
+                        return null;
+            }
+        }
+        //Valores de constantes
+        Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(expresion);
+        while (matcher.find())
+            total -= Integer.parseInt(matcher.group().trim());
 
         Variable result = new Variable("Resultado", total);
         return result;
