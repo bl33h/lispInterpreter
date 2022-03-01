@@ -52,16 +52,16 @@ public class Interprete {
         //Nombre de la variable
         Pattern pattern = Pattern.compile("[ ]+[a-z]+[ ]+", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(expresion);
-        if (matcher.find()) {
+        if (matcher.find()) 
             name = matcher.group().trim();
-        }
+        
         
         //Valor de la variable
         pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); 
         matcher = pattern.matcher(expresion);
-        if (matcher.find()) {
+        if (matcher.find()) 
             value = Integer.parseInt(matcher.group().trim());
-        }
+        
         
        //Instanciar la variable y agregarla al arreglo dinámico
        Variable variable = new Variable(name, value);
@@ -79,25 +79,33 @@ public class Interprete {
      private Variable addOperation(String expresion) {
         Integer total = 0;
         String variable = "";
+        String[] parts = expresion.split(" ");
 
-        //Valores de variables
-        Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(expresion);
-        if (matcher.find()) {
-            variable = matcher.group().trim();
-        }
+        if (parts.length == 2)
+            return null;
 
-        if(verifyVariable(variable) != null){
-            total += verifyVariable(variable).getValue();
+        for (int i = 0; i < parts.length; i++){
+            //Valores de variables
+            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(parts[i]);
+            
+            if (matcher.find()){
+                variable = matcher.group().trim();
+                if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
+                    if(verifyVariable(variable) != null)
+                        total += verifyVariable(variable).getValue();
+
+                    //Si se ingresa una variable incorrecta
+                    if(verifyVariable(variable) == null)
+                        return null;  
+            }          
         }
-           
         //Valores de constantes
-		pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
-	    matcher = pattern.matcher(expresion);
-	    while (matcher.find()) {
-	    	total += Integer.parseInt(matcher.group().trim());
-	    }
-        
+        Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(expresion);
+        while (matcher.find()) 
+            total += Integer.parseInt(matcher.group().trim());
+
         Variable result = new Variable("Resultado", total);
         return result;
 	}
