@@ -29,8 +29,6 @@ public class Interprete {
             return newIntVariable(expresion);
         else if (option == 2)
             return addOperation(expresion);
-        else if (option == 3)
-            return substractOperation(expresion);
         else
             return null;
         /*
@@ -72,10 +70,23 @@ public class Interprete {
     //****************************************************************
 
     /*****************************************************************
+     * operacion que entrar toda la variable.
+     * @param expresion
+     */
+     // --- Reordenar y separar ---
+    public Variable Operation(String expresion) {
+        Integer total = 0;
+        String[] parts = expresion.split("[() \n \t]");
+        
+        Variable result = new Variable("Resultado", total);
+        return result;
+    }
+    //****************************************************************
+
+    /*****************************************************************
      * operacion de adicion.
      * @param expresion
      */
-
      // --- SUMA ---
     private Variable addOperation(String expresion) {
         Integer total = 0;
