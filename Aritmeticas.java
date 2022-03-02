@@ -41,7 +41,7 @@ public class Aritmeticas {
                         break;
 
                         case "-": //Resta
-                            stack.push(num1 - num2);
+                            stack.push(num2 - num1);
                         break;
 
                         case "*": //Multiplicación
@@ -49,8 +49,8 @@ public class Aritmeticas {
                         break;
 
                         case "/": //División
-                            if (num2 != 0) //Si el segundo número es distinto de cero se puede hacer la división
-                                stack.push(num1 / num2);
+                            if (num1 != 0) //Si el segundo número es distinto de cero se puede hacer la división
+                                stack.push(num2 / num1);
                             else{ //División indefinida
                                 System.out.println("¡ERROR! División entre cero!");
                                 return null;
