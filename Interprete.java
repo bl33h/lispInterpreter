@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 public class Interprete {
     //---------------------------PROPIEDADES--------------------------
     ArrayList<Variable> variables = new ArrayList<Variable>();
+    Aritmeticas aritmeticas = new Aritmeticas();
 
     //---------------------------METODOS------------------------------
     /*****************************************************************
