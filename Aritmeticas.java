@@ -7,26 +7,26 @@
  * @version:
         - Creacion: 26/02/2022
         - Ultima modificacion:
-    Clase que tiene como fin realizar las operaciones aritméticas
+    Clase que tiene como fin realizar las operaciones aritmeticas
  */
 
 import java.util.Arrays;
 public class Aritmeticas {
-    //---------------------------PROPIEDADES--------------------------
+    //--------------------------- PROPIEDADES --------------------------
     private Stack<Integer> stack;
     private String[] operands = {"0", "1", "2","3","4","5","6","7","8","9"};
     private String[] operators = {"+","-","*","/"};
 
-    //---------------------------MÉTODOS------------------------------
+    //--------------------------- METODOS ------------------------------
     public Integer Evaluate(String expresion){
         stack = new Stack<Integer>();
         boolean flag = true;
         int num1, num2, result = 0;
-        String[] values = expresion.split(" "); //Separar los valores en la expresión
+        String[] values = expresion.split(" "); //Separar los valores en la expresion
         
-        for(int i = 0; i < values.length && flag; i++){ //Recorrer toda la expresión
+        for(int i = 0; i < values.length && flag; i++){ //Recorrer toda la expresion
                 
-            if(Arrays.asList(operands).contains(values[i])) //Si es Número
+            if(Arrays.asList(operands).contains(values[i])) //Si es Numero
                 stack.push(Integer.parseInt(values[i]));
 
             else if(Arrays.asList(operators).contains(values[i])){ //Si es Operador
@@ -44,12 +44,12 @@ public class Aritmeticas {
                             stack.push(num2 - num1);
                         break;
 
-                        case "*": //Multiplicación
+                        case "*": //Multiplicacion
                             stack.push(num1 * num2);
                         break;
 
                         case "/": //División
-                            if (num1 != 0) //Si el segundo número es distinto de cero se puede hacer la división
+                            if (num1 != 0) //Si el segundo numero es distinto de cero se puede hacer la division
                                 stack.push(num2 / num1);
                             else{ //División indefinida
                                 System.out.println("¡ERROR! División entre cero!");
@@ -59,27 +59,27 @@ public class Aritmeticas {
 
                     }
                 }
-                else{ //Faltan números
+                else{ //Faltan numeros
                     System.out.println("¡ERROR! Le han faltado operandos!");
                     flag = false;
                 }
             }
-            else{ //No ingresó números ni operadores
-                System.out.println("¡ERROR! Ha ingresado un carácter inválido!");
+            else{ //No ingreso numeros ni operadores
+                System.out.println("¡ERROR! Ha ingresado un carácter invalido!");
                 flag = false;
             }
         }
         if (stack.count() == 1 && flag) //Si ya solo queda un elemento en la pila
             result = stack.pull();
-        else if (!flag) //Si queda más de un elemento es porque faltaron operadores
+        else if (!flag) //Si queda mas de un elemento es porque faltaron operadores
             return null;
         else {
             System.out.println("¡ERROR! Le han faltado operadores!");
             flag = false;
         }
-        if (flag) //Si la operación es válida
+        if (flag) //Si la operacion es valida
             return result;
-        else //Existió algún error respecto a la operación (sintáxis o lógica)
+        else //Existió algún error respecto a la operación (sintaxis o logica)
             return null;
     }
 }
