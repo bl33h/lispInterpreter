@@ -84,7 +84,7 @@ public class Scan {
                 String line = scanner.nextLine();
                 expressions.add(line);
             }
-        scanner.close();    
+        scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -101,6 +101,7 @@ public class Scan {
 
     public ArrayList<String> tokens(ArrayList<String> expressions){
         String temp = "";
+        ArrayList<String> new_Expressions = new ArrayList<String>();
         ArrayList<Character> chars = new ArrayList<Character>();
         chars.addAll(stringToChar(expressions));
     
@@ -109,7 +110,7 @@ public class Scan {
             else{
                 if(actualChar == ')'){
                     if(temp !=""){
-                        expressions.add(temp);
+                        new_Expressions.add(temp);
                         temp = "";
                     }
                 }
@@ -118,13 +119,13 @@ public class Scan {
                         temp += actualChar+"";
                     else{
                         if(temp != ""){
-                            expressions.add(temp);
+                            new_Expressions.add(temp);
                             temp = "";
                         }
                     }
                 }
             }
         }
-        return expressions;
+        return new_Expressions;
     }
 }
