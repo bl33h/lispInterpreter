@@ -10,6 +10,8 @@
     Clase que tiene como fin ser un
  */
 
+import java.util.ArrayList;
+
 public class Controlador{
     public static void main(String[] args){
         Scan sc = new Scan();
@@ -17,12 +19,14 @@ public class Controlador{
         Variable variable;
         
         sc.Bienvenida();
+        ArrayList<String> tokens = sc.read();
+        System.out.println(sc.tokens(tokens));
+        /*
         String dato = "";
         do {
             dato = sc.leer();
             variable = miInterprete.operate(dato, sc.obtenerTipo(dato));
             sc.escribir(variable.toString());
-        }while(!dato.equals("exit"));
-
+        }while(!dato.equals("exit"));*/
     }
 }

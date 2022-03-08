@@ -14,11 +14,11 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class Interprete {
-    //---------------------------PROPIEDADES--------------------------
+    //--------------------------- PROPIEDADES --------------------------
     ArrayList<Variable> variables = new ArrayList<Variable>();
     Aritmeticas aritmeticas = new Aritmeticas();
 
-    //---------------------------METODOS------------------------------
+    //--------------------------- METODOS ------------------------------
     /*****************************************************************
      * recibe una expresion y una opcion según dicha expresion
      * @param expresion
@@ -29,8 +29,6 @@ public class Interprete {
             return newIntVariable(expresion);
         else if (option == 2)
             return addOperation(expresion);
-        else if (option == 3)
-            return substractOperation(expresion);
         else
             return null;
         /*
@@ -72,10 +70,23 @@ public class Interprete {
     //****************************************************************
 
     /*****************************************************************
+     * operacion que entrar toda la variable.
+     * @param expresion
+     */
+     // --- Reordenar y separar ---
+    public Variable Operation(String expresion) {
+        Integer total = 0;
+        String[] parts = expresion.split("[() \n \t]");
+        
+        Variable result = new Variable("Resultado", total);
+        return result;
+    }
+    //****************************************************************
+
+    /*****************************************************************
      * operacion de adicion.
      * @param expresion
      */
-
      // --- SUMA ---
     private Variable addOperation(String expresion) {
         Integer total = 0;
@@ -84,7 +95,8 @@ public class Interprete {
 
         if (parts.length == 2)
             return null;
-
+        //(+ 3 (* 9 6))
+        //* 9 6 + 3
         for (int i = 0; i < parts.length; i++){
             //Valores de variables
             Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);

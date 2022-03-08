@@ -13,28 +13,28 @@
 public interface IStack<T> { 
 
 	/*****************************************************************
-     * push: agrega un elemento genérico
+     * push: agrega un elemento generico
 	 * @param value 
      */
 	void push(T value);
 	//****************************************************************
 	
 	/*****************************************************************
-     * pull: retorna el último valor ingresado y lo elimina de la pila
+     * pull: retorna el ultimo valor ingresado y lo elimina de la pila
      * @return T
      */
 	T pull();
 	//****************************************************************
 	
 	/*****************************************************************
-     * peek: retorna el último valor de la pila
+     * peek: retorna el ultimo valor de la pila
      * @return T
      */
 	T peek();
 	//****************************************************************
 	
 	/*****************************************************************
-     * count: retorna el número de elementos en la pila
+     * count: retorna el numero de elementos en la pila
      * @return int
      */
 	int count();
