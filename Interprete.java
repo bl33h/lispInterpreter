@@ -14,11 +14,11 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class Interprete {
-    //---------------------------PROPIEDADES--------------------------
+    //--------------------------- PROPIEDADES --------------------------
     ArrayList<Variable> variables = new ArrayList<Variable>();
     Aritmeticas aritmeticas = new Aritmeticas();
 
-    //---------------------------METODOS------------------------------
+    //--------------------------- METODOS ------------------------------
     /*****************************************************************
      * recibe una expresion y una opcion según dicha expresion
      * @param expresion
