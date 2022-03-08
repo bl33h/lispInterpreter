@@ -24,7 +24,7 @@ public class Aritmeticas {
         int num1, num2, result = 0;
         String[] values = expresion.split(" "); //Separar los valores en la expresion
         
-        for(int i = 0; i < values.length && flag; i++){ //Recorrer toda la expresion
+        for(int i = values.length-1; i < 0; i--){ //Recorrer toda la expresion
                 
             if(Arrays.asList(operands).contains(values[i])) //Si es Numero
                 stack.push(Integer.parseInt(values[i]));
@@ -33,8 +33,8 @@ public class Aritmeticas {
                 if (stack.count() >= 2){ //Si hay dos o más en la pila es porque se pueden hacer operaciones
 
                     //Sacar los dos últimos números ingresados
-                    num2 = stack.pull();
                     num1 = stack.pull();
+                    num2 = stack.pull();
                     switch(values[i]){
                         case "+": //Suma
                             stack.push(num1 + num2);
