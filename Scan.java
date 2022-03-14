@@ -56,8 +56,10 @@ public class Scan {
     public int obtenerTipo(String datoEvaluar){
 		if (evaluar("^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$",datoEvaluar)) //Asignacion que vera si esta es un set de la variable
 			return 1;
-		else if (evaluar("^[(][ ]*[+|-|*|/]([ ]+([a-z]+|[0-9]+)[ ]*)+[)]$",datoEvaluar)) //Realizara la operacion de sumatoria para 2 operandos
+		else if (evaluar("^[(][ ]*[+|-|*|/]([ ]+([a-z]+|[0-9]+)[ ]*)+[)]$",datoEvaluar)) //Realizara la operacion aritmetica
 			return 2;
+        else if (evaluar("^[(][ ]*['|quote]([ ]+([a-z]+|[0-9]+)[ ]*)+[)]$",datoEvaluar)) //Realizara la operacion de quote
+			return 3;
 		else
 			return -1; //De no encontrar la expresion dara  este dato para que sea incorrecta
 	}

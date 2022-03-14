@@ -29,6 +29,8 @@ public class Interprete {
             return newIntVariable(expresion);
         else if (option == 2)
             return addOperation(expresion);
+        else if (option == 3)
+            return expresion;
         else
             return null;
         /*
