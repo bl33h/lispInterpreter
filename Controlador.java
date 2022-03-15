@@ -7,7 +7,6 @@
  * @version:
         - Creacion: 26/02/2022
         - Ultima modificacion:
-    Clase que tiene como fin ser un
  */
 
 import java.util.ArrayList;
@@ -21,12 +20,9 @@ public class Controlador{
         sc.Bienvenida();
         ArrayList<String> tokens = sc.read();
         System.out.println(sc.tokens(tokens));
-        /*
-        String dato = "";
-        do {
-            dato = sc.leer();
-            variable = miInterprete.operate(dato, sc.obtenerTipo(dato));
-            sc.escribir(variable.toString());
-        }while(!dato.equals("exit"));*/
+        variable = miInterprete.operate(expresion, sc.obtenerTipo(expresion));
+        // conversion y otras acciones pendientes
+        System.out.println(variable);
+
     }
 }
