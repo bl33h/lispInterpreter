@@ -56,7 +56,7 @@ public class Scan {
     public int obtenerTipo(String datoEvaluar){
 		if (evaluar("^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$",datoEvaluar)) //Asignacion que vera si esta es un set de la variable
 			return 1;
-		else if (evaluar("^[(][ ]*[+|-|*|/]([ ]+([a-z]+|[0-9]+)[ ]*)+[)]$",datoEvaluar)) //Realizara la operacion aritmetica
+		else if (evaluar("^[+|-|*|/]([ ][a-z]+|[0-9]+|[+|-|*|/][ ])+$",datoEvaluar)) //Realizara la operacion aritmetica
 			return 2;
         else if (evaluar("^[(][ ]*['|quote]([ ]+([a-z]+|[0-9]+)[ ]*)+[)]$",datoEvaluar)) //Realizara la operacion de quote
 			return 3;
@@ -93,15 +93,14 @@ public class Scan {
         return expressions;
     }
 
-    private ArrayList<Character> stringToChar(ArrayList<String> expression){
+    private ArrayList<Character> stringToChar(String expression){
         ArrayList<Character> chars = new ArrayList<Character>();
-        for(String element: expression)
-            for(int i = 0; i < element.length(); i++)
-                chars.add(element.charAt(i));
+        for(int i = 0; i < expression.length(); i++)
+                chars.add(expression.charAt(i));
         return chars;
     }
 
-    public ArrayList<String> tokens(ArrayList<String> expressions){
+    public ArrayList<String> tokens(String expressions){
         String temp = "";
         ArrayList<String> new_Expressions = new ArrayList<String>();
         ArrayList<Character> chars = new ArrayList<Character>();

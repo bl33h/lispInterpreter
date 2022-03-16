@@ -9,13 +9,14 @@
         - Ultima modificacion:
     Clase que tiene como fin ser un
  */
-import java.util.ArrayList;
+
+import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class Interprete {
     //--------------------------- PROPIEDADES --------------------------
-    ArrayList<Variable> variables = new ArrayList<Variable>();
+    HashMap<String, Variable> variables = new HashMap<String, Variable>();
     Aritmeticas aritmeticas = new Aritmeticas();
 
     //--------------------------- METODOS ------------------------------
@@ -26,18 +27,15 @@ public class Interprete {
      */
     public Variable operate(String expresion, int option){
         if (option == 1)
-            return newIntVariable(expresion);
+            return newVariable(expresion);
         else if (option == 2)
-            return addOperation(expresion);
+            return Operation(expresion);
+        /*
         else if (option == 3)
             return expresion;
+            */
         else
             return null;
-        /*
-        if (option == 4)
-            multiplyOperation(expresion);
-        if (option == 5)
-            divideOperation(expresion);*/
         
     }
     //****************************************************************
@@ -46,7 +44,7 @@ public class Interprete {
      * crea una nueva variable entera
      * @param expresion
      */
-    private Variable newIntVariable(String expresion){
+    private Variable newVariable(String expresion){
         String name = "";
         int value = 0;
         
@@ -66,7 +64,7 @@ public class Interprete {
         
        //Instanciar la variable y agregarla al arreglo dinámico
        Variable variable = new Variable(name, value);
-       variables.add(variable);
+       variables.put("name|value", variable);
        return variable;
     }
     //****************************************************************
@@ -77,90 +75,38 @@ public class Interprete {
      */
      // --- Reordenar y separar ---
     public Variable Operation(String expresion) {
-        Integer total = 0;
-        String[] parts = expresion.split("[() \n \t]");
-        
-        Variable result = new Variable("Resultado", total);
+        String newExpresion = "";
+        String variable = "";
+        String[] parts = expresion.split(" ");
+        System.out.println("Operacion");
+        if (parts.length == 2)
+            return null;
+        for (int i = 0; i < parts.length; i++){
+            //Valores de variables
+            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(parts[i]);
+
+            if (matcher.find()){
+                variable = matcher.group().trim();
+                if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
+                    if(verifyVariable(variable) != null)
+                        newExpresion += verifyVariable(variable).getValue() + " ";
+
+                    //Si se ingresa una variable incorrecta
+                    if(verifyVariable(variable) == null)
+                        return null;
+            }
+        }
+        //Valores de constantes
+        Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(expresion);
+        while (matcher.find())
+            newExpresion += Integer.parseInt(matcher.group().trim()) + " ";
+
+        int resultado = aritmeticas.Evaluate(newExpresion);
+        Variable result = new Variable("Resultado", resultado);
         return result;
     }
-    //****************************************************************
-
-    /*****************************************************************
-     * operacion de adicion.
-     * @param expresion
-     */
-     // --- SUMA ---
-    private Variable addOperation(String expresion) {
-        Integer total = 0;
-        String variable = "";
-        String[] parts = expresion.split(" ");
-
-        if (parts.length == 2)
-            return null;
-        //(+ 3 (* 9 6))
-        //* 9 6 + 3
-        for (int i = 0; i < parts.length; i++){
-            //Valores de variables
-            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(parts[i]);
-
-            if (matcher.find()){
-                variable = matcher.group().trim();
-                if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
-                    if(verifyVariable(variable) != null)
-                        total += verifyVariable(variable).getValue();
-
-                    //Si se ingresa una variable incorrecta
-                    if(verifyVariable(variable) == null)
-                        return null;
-            }
-        }
-        //Valores de constantes
-        Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(expresion);
-        while (matcher.find())
-            total += Integer.parseInt(matcher.group().trim());
-
-        Variable result = new Variable("Resultado", total);
-        return result;
-	}
-    //****************************************************************
-
-
-     // --- RESTA ---
-    private Variable substractOperation(String expresion) {
-        Integer total = 0;
-        String variable = "";
-        String[] parts = expresion.split(" ");
-
-        if (parts.length == 2)
-            return null;
-
-        for (int i = 0; i < parts.length; i++){
-            //Valores de variables
-            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(parts[i]);
-
-            if (matcher.find()){
-                variable = matcher.group().trim();
-                if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
-                    if(verifyVariable(variable) != null)
-                        total -= verifyVariable(variable).getValue();
-
-                    //Si se ingresa una variable incorrecta
-                    if(verifyVariable(variable) == null)
-                        return null;
-            }
-        }
-        //Valores de constantes
-        Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(expresion);
-        while (matcher.find())
-            total -= Integer.parseInt(matcher.group().trim());
-
-        Variable result = new Variable("Resultado", total);
-        return result;
-	}
     //****************************************************************
 
     /*****************************************************************

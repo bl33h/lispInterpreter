@@ -10,7 +10,7 @@
  */
 
 
-public class Variable<T> {
+public class Variable {
     //---------------------------PROPIEDADES--------------------------
     private String name;
     private int value;

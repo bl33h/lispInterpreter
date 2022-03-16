@@ -15,14 +15,26 @@ public class Controlador{
     public static void main(String[] args){
         Scan sc = new Scan();
         Interprete miInterprete = new Interprete();
+        ArrayList<ArrayList<String>> tokens = new ArrayList<ArrayList<String>>();
         Variable variable;
         
         sc.Bienvenida();
-        ArrayList<String> tokens = sc.read();
-        System.out.println(sc.tokens(tokens));
-        variable = miInterprete.operate(expresion, sc.obtenerTipo(expresion));
-        // conversion y otras acciones pendientes
-        System.out.println(variable);
+        ArrayList<String> expresions = sc.read();
+        //Lectura y separación por tokens
+        for (String s: expresions)
+            tokens.add(sc.tokens(s));
+        System.out.println(tokens);
 
+        //Evaluate
+        for (ArrayList<String> al: tokens){
+            System.out.println(al);
+            String expresion = "";
+            for (String s: al)
+                expresion += s + " ";
+            System.out.println(expresion);
+            variable = miInterprete.operate(expresion, sc.obtenerTipo(expresion));
+            sc.escribir(variable.toString());
+        }
+        
     }
 }
