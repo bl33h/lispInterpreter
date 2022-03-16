@@ -79,6 +79,7 @@ public class Interprete {
         String variable = "";
         String[] parts = expresion.split(" ");
         System.out.println("Operacion");
+        /*
         if (parts.length == 2)
             return null;
         for (int i = 0; i < parts.length; i++){
@@ -102,8 +103,8 @@ public class Interprete {
         Matcher matcher = pattern.matcher(expresion);
         while (matcher.find())
             newExpresion += Integer.parseInt(matcher.group().trim()) + " ";
-
-        int resultado = aritmeticas.Evaluate(newExpresion);
+        */
+        int resultado = aritmeticas.Evaluate(expresion);
         Variable result = new Variable("Resultado", resultado);
         return result;
     }

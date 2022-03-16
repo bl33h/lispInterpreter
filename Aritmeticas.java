@@ -24,8 +24,7 @@ public class Aritmeticas {
         int num1, num2, result = 0;
         String[] values = expresion.split(" "); //Separar los valores en la expresion
         
-        for(int i = values.length-1; i < 0; i--){ //Recorrer toda la expresion
-                
+        for(int i = values.length-1; i >= 0; i--){ //Recorrer toda la expresion  
             if(Arrays.asList(operands).contains(values[i])) //Si es Numero
                 stack.push(Integer.parseInt(values[i]));
 
