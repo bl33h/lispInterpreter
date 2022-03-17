@@ -17,37 +17,90 @@ public class Logicas<T>{
      * @param valor2 Segundo parametro que se compara
      * @return comparacion de si es verdadero o no la igualacion
      */
-    public boolean equals(T valor, T valor2){
-        return valor.equals(valor2);
+    public String equals(String expresion){
+        String valor = "";
+        String valor2 = "";
+        String expresionFinal ="";
+        String[] expresionSplit = expresion.split(" ");
+        int i =0;
+        for(i =0; i <expresionSplit.length-1;i++){
+            if(expresionSplit[i].equals("=")||expresionSplit[i].equals("equals")){
+                i=i+1;
+                break;
+            }
+        }
+        for(int j = i ; j<=expresionSplit.length-1; j++) {
+        	valor = expresionSplit[j-2];
+            valor2 = expresionSplit[i];
+        }
+        if(valor.equals(valor2)){
+            expresionFinal = "verdadero";
+            return expresionFinal;
+        }else{
+            expresionFinal = "Falso";
+            return expresionFinal;
+        }
     }
     //****************************************************************
 
         /*****************************************************************
      * Metodo que realizara la verificacion si el numero es menor que el otro
-     * @param valor Uno de los parametros a comparar
-     * @param valor2 Segundo parametro que se compara
+     * @param expresion traera los 2 numeros a comparar
      * @return comparacion de si es verdadero o no la operacion realizada
      */
-    public Boolean menorComparar(int valor, int valor2 ){
+    public String menorComparar(String expresion){
+        int valor = 0;
+        int valor2 = 0;
+        String expresionFinal ="";
+        String[] expresionSplit = expresion.split(" ");
+        int i =0;
+        for(i =0; i <expresionSplit.length-1;i++){
+            if(expresionSplit[i].equals("<")){
+                i=i+1;
+                break;
+            }
+        }
+        for(int j = i ; j<=expresionSplit.length-1; j++) {
+        	valor = Integer.parseInt(expresionSplit[j-2]);
+            valor2 = Integer.parseInt(expresionSplit[i]);
+        }
         if(valor < valor2){
-            return true;
+            expresionFinal = "verdadero";
+            return expresionFinal;
         }else{
-            return false;
+            expresionFinal = "Falso";
+            return expresionFinal;
         }
     }
     //****************************************************************
 
-            /*****************************************************************
+    /*****************************************************************
      * Metodo que realizara la verificacion si el numero es mayor que el otro
-     * @param valor Uno de los parametros a comparar
-     * @param valor2 Segundo parametro que se compara
+     * @param expresion traera los 2 numeros a comparar
      * @return comparacion de si es verdadero o no la operacion realizada
      */
-    public Boolean mayorComparar(int valor, int valor2 ){
+    public String mayorComparar(String expresion){
+        int valor = 0;
+        int valor2 = 0;
+        String expresionFinal ="";
+        String[] expresionSplit = expresion.split(" ");
+        int i =0;
+        for(i =0; i <expresionSplit.length-1;i++){
+            if(expresionSplit[i].equals(">")){
+                i=i+1;
+                break;
+            }
+        }
+        for(int j = i ; j<=expresionSplit.length-1; j++) {
+        	valor = Integer.parseInt(expresionSplit[j-2]);
+            valor2 = Integer.parseInt(expresionSplit[i]);
+        }
         if(valor > valor2){
-            return true;
+            expresionFinal = "verdadero";
+            return expresionFinal;
         }else{
-            return false;
+            expresionFinal = "Falso";
+            return expresionFinal;
         }
     }
     //****************************************************************

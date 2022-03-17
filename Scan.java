@@ -59,6 +59,12 @@ public class Scan {
 			return 2;
         else if (datoEvaluar.contains("'")||datoEvaluar.contains("quote")) //Realizara la operacion de quote
 			return 3;
+        else if(datoEvaluar.contains(">"))
+            return 4;
+        else if(datoEvaluar.contains("<"))
+            return 5;
+        else if(datoEvaluar.contains("equals")||datoEvaluar.contains("="))
+            return 6;
 		else
 			return -1; //De no encontrar la expresion dara  este dato para que sea incorrecta
 	}

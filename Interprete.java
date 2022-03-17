@@ -18,6 +18,7 @@ public class Interprete {
     //--------------------------- PROPIEDADES --------------------------
     HashMap<String, Integer> variables = new HashMap<String, Integer>();
     Aritmeticas aritmeticas = new Aritmeticas();
+    Logicas logicas = new Logicas();
 
     //--------------------------- METODOS ------------------------------
     /*****************************************************************
@@ -32,6 +33,12 @@ public class Interprete {
             return Operation(expresion);
         else if (option == 3)
             return quote(expresion);
+        else if (option == 4)
+            return logicas.mayorComparar(expresion);
+        else if (option == 5)
+            return logicas.menorComparar(expresion);
+        else if (option == 6)
+            return logicas.equals(expresion);
         else
             return null;
         
@@ -117,7 +124,7 @@ public class Interprete {
             }
         }
         for(int j = i ; j<=expresionSplit.length-1; j++) {
-        	expresionFinal =expresionSplit[j];
+        	expresionFinal = expresionFinal + " " + expresionSplit[j];
         }
         return expresionFinal;
     }
@@ -135,4 +142,5 @@ public class Interprete {
         return variable;
     }
     //****************************************************************
+
 }
