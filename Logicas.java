@@ -25,7 +25,7 @@ public class Logicas<T>{
         int i =0;
         for(i =0; i <expresionSplit.length-1;i++){
             if(expresionSplit[i].equals("=")||expresionSplit[i].equals("equals")){
-                i=i+1;
+                i++;
                 break;
             }
         }
@@ -56,7 +56,7 @@ public class Logicas<T>{
         int i =0;
         for(i =0; i <expresionSplit.length-1;i++){
             if(expresionSplit[i].equals("<")){
-                i=i+1;
+                i++;
                 break;
             }
         }
@@ -84,10 +84,10 @@ public class Logicas<T>{
         int valor2 = 0;
         String expresionFinal ="";
         String[] expresionSplit = expresion.split(" ");
-        int i =0;
+        int i = 0;
         for(i =0; i <expresionSplit.length-1;i++){
             if(expresionSplit[i].equals(">")){
-                i=i+1;
+                i++;
                 break;
             }
         }
@@ -102,6 +102,50 @@ public class Logicas<T>{
             expresionFinal = "Falso";
             return expresionFinal;
         }
+    }
+    //****************************************************************
+
+    /*****************************************************************
+     * metodo que devuelve si es atom la expresion
+     * @param expresion
+     * @return
+     */
+    public String isAtom(String expresion){
+        String atom = "NIL";
+        String[] values= expresion.split(" ");
+
+        int i = 0;
+        for(i=0; i < values.length ; i++)
+        	if(values[i].contains("Atom")){
+        		i++;
+        		break;
+        	}
+        if((values.length-i)<=1) {
+            atom = "T";
+        }
+        return atom;
+    }
+    //****************************************************************
+
+    /*****************************************************************
+     * metodo que devuelve si es list la expresion
+     * @param expresion
+     * @return
+     */
+    public String isList(String expresion){
+        String list = "T";
+        String[] values= expresion.split(" ");
+
+        int i = 0;
+        for(i=0; i < values.length ; i++)
+        	if(values[i].contains("List")){
+        		i++;
+        		break;
+        	}
+        if((values.length-i)>1) {
+            list = "NIL";
+        }
+        return list;
     }
     //****************************************************************
 }

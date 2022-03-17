@@ -109,7 +109,7 @@ public class Interprete {
     }
     //****************************************************************
 
-        /*****************************************************************
+    /*****************************************************************
      * operacion que entrar toda la variable.
      * @param expresion
      */
@@ -119,12 +119,12 @@ public class Interprete {
         int i =0;
         for(i =0; i <expresionSplit.length-1;i++){
             if(expresionSplit[i].equals("quote")||expresionSplit[i].equals("'")){
-                i=i+1;
+                i++;
                 break;
             }
         }
         for(int j = i ; j<=expresionSplit.length-1; j++) {
-        	expresionFinal = expresionFinal + " " + expresionSplit[j];
+        	expresionFinal += expresionSplit[j] + " ";
         }
         return expresionFinal;
     }
@@ -142,5 +142,4 @@ public class Interprete {
         return variable;
     }
     //****************************************************************
-
 }
