@@ -31,7 +31,7 @@ public class Interprete {
         else if (option == 2)
             return Operation(expresion);
         else if (option == 3)
-            return expresion;
+            return quote(expresion);
         else
             return null;
         
@@ -99,6 +99,27 @@ public class Interprete {
         int resultado = aritmeticas.Evaluate(newExpresion);
         String result = "Resultado: " + resultado;
         return result;
+    }
+    //****************************************************************
+
+        /*****************************************************************
+     * operacion que entrar toda la variable.
+     * @param expresion
+     */
+    public String quote(String expresion){
+        String expresionFinal ="";
+        String[] expresionSplit = expresion.split(" ");
+        int i =0;
+        for(i =0; i <expresionSplit.length-1;i++){
+            if(expresionSplit[i].equals("quote")||expresionSplit[i].equals("'")){
+                i=i+1;
+                break;
+            }
+        }
+        for(int j = i ; j<=expresionSplit.length-1; j++) {
+        	expresionFinal =expresionSplit[j];
+        }
+        return expresionFinal;
     }
     //****************************************************************
 
