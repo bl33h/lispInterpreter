@@ -25,15 +25,13 @@ public class Interprete {
      * @param expresion
      * @param option
      */
-    public Variable operate(String expresion, int option){
+    public String operate(String expresion, int option){
         if (option == 1)
             return newVariable(expresion);
         else if (option == 2)
             return Operation(expresion);
-        /*
         else if (option == 3)
             return expresion;
-            */
         else
             return null;
         
@@ -44,7 +42,7 @@ public class Interprete {
      * crea una nueva variable entera
      * @param expresion
      */
-    private Variable newVariable(String expresion){
+    private String newVariable(String expresion){
         String name = "";
         int value = 0;
         
@@ -63,9 +61,8 @@ public class Interprete {
         
         
        //Instanciar la variable y agregarla al arreglo dinámico
-       Variable variable = new Variable(name, value);
        variables.put(name, value);
-       return variable;
+       return name +": " + value;
     }
     //****************************************************************
 
@@ -74,7 +71,7 @@ public class Interprete {
      * @param expresion
      */
      // --- Reordenar y separar ---
-    public Variable Operation(String expresion) {
+    public String Operation(String expresion) {
         String newExpresion = "";
         String variable = "";
         String[] parts = expresion.split(" ");
@@ -100,7 +97,7 @@ public class Interprete {
             newExpresion += parts[i] + " ";
                 
         int resultado = aritmeticas.Evaluate(newExpresion);
-        Variable result = new Variable("Resultado", resultado);
+        String result = "Resultado: " + resultado;
         return result;
     }
     //****************************************************************

@@ -16,7 +16,7 @@ public class Controlador{
         Scan sc = new Scan();
         Interprete miInterprete = new Interprete();
         ArrayList<ArrayList<String>> tokens = new ArrayList<ArrayList<String>>();
-        Variable variable;
+        String variable;
         
         sc.Bienvenida();
         ArrayList<String> expresions = sc.read();

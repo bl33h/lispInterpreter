@@ -11,9 +11,8 @@
  */
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Scan {
     //---------------------------PROPIEDADES--------------------------
@@ -62,19 +61,6 @@ public class Scan {
 			return 3;
 		else
 			return -1; //De no encontrar la expresion dara  este dato para que sea incorrecta
-	}
-    //****************************************************************
-
-    /*****************************************************************
-     * metodo que verificara si es una expresion o no
-	 * @param regex regla a seguir(formato regex)
-	 * @param expresion La expresion que nos seran brindados por el usuario
-	 * @return si es verdadero es que si hay alguna operacion a evaluar, si es falso no habra ninguna
-	 */
-	private boolean evaluar(String regex, String expresion) {
-		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(expresion);
-        return matcher.find();
 	}
     //****************************************************************
 
