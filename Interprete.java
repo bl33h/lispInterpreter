@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 
 public class Interprete {
     //--------------------------- PROPIEDADES --------------------------
-    HashMap<String, Variable> variables = new HashMap<String, Variable>();
+    HashMap<String, Integer> variables = new HashMap<String, Integer>();
     Aritmeticas aritmeticas = new Aritmeticas();
 
     //--------------------------- METODOS ------------------------------
@@ -64,7 +64,7 @@ public class Interprete {
         
        //Instanciar la variable y agregarla al arreglo dinámico
        Variable variable = new Variable(name, value);
-       variables.put("name|value", variable);
+       variables.put(name, value);
        return variable;
     }
     //****************************************************************
@@ -79,7 +79,7 @@ public class Interprete {
         String variable = "";
         String[] parts = expresion.split(" ");
         System.out.println("Operacion");
-        /*
+        
         if (parts.length == 2)
             return null;
         for (int i = 0; i < parts.length; i++){
@@ -91,20 +91,15 @@ public class Interprete {
                 variable = matcher.group().trim();
                 if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
                     if(verifyVariable(variable) != null)
-                        newExpresion += verifyVariable(variable).getValue() + " ";
-
-                    //Si se ingresa una variable incorrecta
-                    if(verifyVariable(variable) == null)
+                        parts[i] = verifyVariable(variable).toString();
+                    else
                         return null;
             }
         }
-        //Valores de constantes
-        Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(expresion);
-        while (matcher.find())
-            newExpresion += Integer.parseInt(matcher.group().trim()) + " ";
-        */
-        int resultado = aritmeticas.Evaluate(expresion);
+        for (int i = 0; i < parts.length; i++)
+            newExpresion += parts[i] + " ";
+                
+        int resultado = aritmeticas.Evaluate(newExpresion);
         Variable result = new Variable("Resultado", resultado);
         return result;
     }
@@ -115,13 +110,10 @@ public class Interprete {
      * @param name
      * @return
      */
-    private Variable verifyVariable(String name){
-        Variable variable = null;
-        for (int i = 0; i < variables.size(); i++)
-            if (name.equals(variables.get(i).getName())){
-                variable = variables.get(i);
-                break;
-            }
+    private Integer verifyVariable(String name){
+        Integer variable = null;
+        if(variables.containsKey(name))
+            variable = variables.get(name);
         return variable;
     }
     //****************************************************************

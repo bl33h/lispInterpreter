@@ -14,7 +14,6 @@ import java.util.Arrays;
 public class Aritmeticas {
     //--------------------------- PROPIEDADES --------------------------
     private Stack<Integer> stack;
-    private String[] operands = {"0", "1", "2","3","4","5","6","7","8","9"};
     private String[] operators = {"+","-","*","/"};
 
     //--------------------------- METODOS ------------------------------
@@ -24,11 +23,9 @@ public class Aritmeticas {
         int num1, num2, result = 0;
         String[] values = expresion.split(" "); //Separar los valores en la expresion
         
-        for(int i = values.length-1; i >= 0; i--){ //Recorrer toda la expresion  
-            if(Arrays.asList(operands).contains(values[i])) //Si es Numero
-                stack.push(Integer.parseInt(values[i]));
-
-            else if(Arrays.asList(operators).contains(values[i])){ //Si es Operador
+        for(int i = values.length-1; i >= 0; i--){ //Recorrer toda la expresion 
+            System.out.println(values[i]); 
+            if(Arrays.asList(operators).contains(values[i])){ //Si es Operador
                 if (stack.count() >= 2){ //Si hay dos o más en la pila es porque se pueden hacer operaciones
 
                     //Sacar los dos últimos números ingresados
@@ -64,8 +61,7 @@ public class Aritmeticas {
                 }
             }
             else{ //No ingreso numeros ni operadores
-                System.out.println("¡ERROR! Ha ingresado un carácter invalido!");
-                flag = false;
+                stack.push(Integer.parseInt(values[i]));
             }
         }
         if (stack.count() == 1 && flag) //Si ya solo queda un elemento en la pila
