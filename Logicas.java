@@ -133,7 +133,7 @@ public class Logicas<T>{
      * @return
      */
     public String isList(String expresion){
-        String list = "T";
+        String list = "NIL";
         String[] values= expresion.split(" ");
 
         int i = 0;
@@ -143,7 +143,7 @@ public class Logicas<T>{
         		break;
         	}
         if((values.length-i)>1) {
-            list = "NIL";
+            list = "T";
         }
         return list;
     }

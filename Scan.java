@@ -65,6 +65,10 @@ public class Scan {
             return 5;
         else if(datoEvaluar.contains("equals")||datoEvaluar.contains("="))
             return 6;
+        else if(datoEvaluar.contains("Atom"))
+            return 7;
+        else if(datoEvaluar.contains("List"))
+            return 8;
 		else
 			return -1; //De no encontrar la expresion dara  este dato para que sea incorrecta
 	}

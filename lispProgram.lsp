@@ -9,3 +9,7 @@
 (' Kiesling pijije)
 (10 < 5)
 (10 = 10)
+(Atom x)
+(Atom (1 2 3))
+(List (x))
+(List (1 2 3))

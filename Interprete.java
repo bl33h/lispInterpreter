@@ -39,6 +39,10 @@ public class Interprete {
             return logicas.menorComparar(expresion);
         else if (option == 6)
             return logicas.equals(expresion);
+        else if (option == 7)
+            return logicas.isAtom(expresion);
+        else if (option == 8)
+            return logicas.isList(expresion);
         else
             return null;
         
