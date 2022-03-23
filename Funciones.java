@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
 /**
  * Copyright (C), 2022-2023, The_Kiesling FabianJuarez SaraEcheverria
  * FileName: Funciones
@@ -15,12 +14,13 @@ import java.util.LinkedHashMap;
 public class Funciones {
     HashMap<String, String> functions = new HashMap<String, String>();
     HashMap<String, LinkedHashMap<String, String>> parameters = new HashMap<String, LinkedHashMap<String, String>>();
-    public void newFunction(String name, String parameters, String[] instructions){
+
+    public void newFunction(String name, String parameters, String instructions){
         LinkedHashMap<String, String> parametersFunction = new LinkedHashMap<String, String>();
         String[] parametersSplited = parameters.trim().split(",");
         for(String parameter: parametersSplited)
             parametersFunction.put(parameter, "");
-        parameters.put(name, parametersFunction);
+        this.parameters.put(name, parametersFunction);
         functions.put(name, instructions);
     }
 

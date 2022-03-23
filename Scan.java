@@ -52,22 +52,22 @@ public class Scan {
 	 * @param datoEvaluar nos dara la expresion que se evaluara
 	 * @return un numero que si es distinto a -1 y mayor que  que indicara que operacion se esta realizando
 	 */
-    public int obtenerTipo(String datoEvaluar){
-		if (datoEvaluar.contains("setq")) //Asignacion que vera si esta es un set de la variable
+    public int obtenerTipo(ArrayList<String> datoEvaluar){
+		if (datoEvaluar.get(0).contains("setq")) //Asignacion que vera si esta es un set de la variable
 			return 1;
-		else if (datoEvaluar.contains("+")||datoEvaluar.contains("-")||datoEvaluar.contains("*")||datoEvaluar.contains("/")) //Realizara la operacion aritmetica
+		else if (datoEvaluar.get(0).contains("+")||datoEvaluar.get(0).contains("-")||datoEvaluar.get(0).contains("*")||datoEvaluar.get(0).contains("/")) //Realizara la operacion aritmetica
 			return 2;
-        else if (datoEvaluar.contains("'")||datoEvaluar.contains("quote")) //Realizara la operacion de quote
+        else if (datoEvaluar.get(0).contains("'")||datoEvaluar.get(0).contains("quote")) //Realizara la operacion de quote
 			return 3;
-        else if(datoEvaluar.contains(">"))
+        else if(datoEvaluar.get(0).contains(">"))
             return 4;
-        else if(datoEvaluar.contains("<"))
+        else if(datoEvaluar.get(0).contains("<"))
             return 5;
-        else if(datoEvaluar.contains("equals")||datoEvaluar.contains("="))
+        else if(datoEvaluar.get(0).contains("equals")||datoEvaluar.get(0).contains("="))
             return 6;
-        else if(datoEvaluar.contains("Atom"))
+        else if(datoEvaluar.get(0).contains("Atom"))
             return 7;
-        else if(datoEvaluar.contains("List"))
+        else if(datoEvaluar.get(0).contains("List"))
             return 8;
 		else
 			return -1; //De no encontrar la expresion dara  este dato para que sea incorrecta
