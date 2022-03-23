@@ -100,6 +100,7 @@ public class Scan {
         String temp = "";
         ArrayList<String> new_Expressions = new ArrayList<String>();
         ArrayList<Character> chars = new ArrayList<Character>();
+        ArrayList<Character> tempToken = new ArrayList<Character>();
         chars.addAll(stringToChar(expressions));
     
         for (Character actualChar: chars){
