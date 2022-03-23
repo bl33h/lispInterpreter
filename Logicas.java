@@ -29,10 +29,8 @@ public class Logicas<T>{
                 break;
             }
         }
-        for(int j = i ; j<=expresionSplit.length-1; j++) {
-        	valor = expresionSplit[j-2];
-            valor2 = expresionSplit[i];
-        }
+        	valor = expresionSplit[i];
+            valor2 = expresionSplit[i+1];
         if(valor.equals(valor2)){
             expresionFinal = "verdadero";
             return expresionFinal;
@@ -60,10 +58,8 @@ public class Logicas<T>{
                 break;
             }
         }
-        for(int j = i ; j<=expresionSplit.length-1; j++) {
-        	valor = Integer.parseInt(expresionSplit[j-2]);
-            valor2 = Integer.parseInt(expresionSplit[i]);
-        }
+        	valor = Integer.parseInt(expresionSplit[i]);
+            valor2 = Integer.parseInt(expresionSplit[i+1]);
         if(valor < valor2){
             expresionFinal = "verdadero";
             return expresionFinal;
@@ -91,10 +87,8 @@ public class Logicas<T>{
                 break;
             }
         }
-        for(int j = i ; j<=expresionSplit.length-1; j++) {
-        	valor = Integer.parseInt(expresionSplit[j-2]);
-            valor2 = Integer.parseInt(expresionSplit[i]);
-        }
+        	valor = Integer.parseInt(expresionSplit[i]);
+            valor2 = Integer.parseInt(expresionSplit[i+1]);
         if(valor > valor2){
             expresionFinal = "verdadero";
             return expresionFinal;
