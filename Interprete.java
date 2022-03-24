@@ -13,6 +13,7 @@
 import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.ArrayList;
 
 public class Interprete {
     //--------------------------- PROPIEDADES --------------------------
@@ -26,11 +27,14 @@ public class Interprete {
      * @param expresion
      * @param option
      */
-    public String operate(String expresion, int option){
+    public String operate(ArrayList<String> oexpresion, int option){
+        String expresion = "";
+            for (String s: oexpresion)
+                expresion += s + " ";
         if (option == 1)
             return newVariable(expresion);
         else if (option == 2)
-            return Operation(expresion);
+            return Operation(expresion) + "";
         else if (option == 3)
             return quote(expresion);
         else if (option == 4)
@@ -82,14 +86,12 @@ public class Interprete {
      * @param expresion
      */
      // --- Reordenar y separar ---
-    public String Operation(String expresion) {
+    public int Operation(String expresion) {
         String newExpresion = "";
         String variable = "";
         String[] parts = expresion.split(" ");
         System.out.println("Operacion");
         
-        if (parts.length == 2)
-            return null;
         for (int i = 0; i < parts.length; i++){
             //Valores de variables
             Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
@@ -100,16 +102,14 @@ public class Interprete {
                 if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
                     if(verifyVariable(variable) != null)
                         parts[i] = verifyVariable(variable).toString();
-                    else
-                        return null;
+
             }
         }
         for (int i = 0; i < parts.length; i++)
             newExpresion += parts[i] + " ";
                 
         int resultado = aritmeticas.Evaluate(newExpresion);
-        String result = "Resultado: " + resultado;
-        return result;
+        return resultado;
     }
     //****************************************************************
 

@@ -32,7 +32,7 @@ public class Controlador{
             for (String s: al)
                 expresion += s + " ";
             System.out.println(expresion);
-            variable = miInterprete.operate(expresion, sc.obtenerTipo(al));
+            variable = miInterprete.operate(al, sc.obtenerTipo(al));
             sc.escribir(variable.toString());
         }
         
