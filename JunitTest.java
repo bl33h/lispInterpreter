@@ -1,4 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
 
@@ -78,7 +81,20 @@ class JunitTest {
 	
 	@Test
 	void test_Condicionales() {
-		
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("Cond");
+		list.add("equals");
+		list.add("3");
+		list.add("+");
+		list.add("1");
+		list.add("2");
+		list.add("*");
+		list.add("6");
+		list.add("3");
+		list.add("*");
+		list.add("5");
+		list.add("6");
+		assertEquals("18", inter.Condicionales(list));
 	}
 	
 }
