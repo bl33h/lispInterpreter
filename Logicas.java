@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Copyright (C), 2022-2023, The_Kiesling FabianJuarez SaraEcheverria
  * FileName: View
@@ -142,4 +144,69 @@ public class Logicas<T>{
         return list;
     }
     //****************************************************************
+
+    /*****************************************************************
+     * metodo para condicionales
+     * @param oexpression
+     * @return
+     */
+    public String Condicionales(ArrayList<String> oexpresion){
+    
+    // Atributos
+    String condition = oexpression.get(1) + " ";
+    int numeroCondiciones = 0;
+    boolean positivo = false;
+
+    // Metodos
+    for (int i = 2; i < oexpression.length; i++) {
+        if (!oexpression.get(i).contains(instrucciones)){
+            condition += oexpression.get(i) + " ";
+            numeroCondiciones++;
+        }
+        else if(numeroCondiciones != 2){ 
+                expression = oexpression.get(i) + " ";
+                boolean flag = true;
+                for (int j = i+1; j < oexpression.length && flag; i++){
+                    if (!oexpression.get(j).contains(instrucciones))
+                        expression += oexpression.get(j) + " ";
+                    else if (oexpression.get(j).contains(instrucciones))
+                    flag = false;
+                }    
+                String[] expressionSplited = expression.split(" ");
+                ArrayList<String> evaExpression = new ArrayList<String>();
+                for (int i = 0; i <expressionSplited.length; i++)
+                    evaExpression.put(expressionSplited[i]);
+                condition += interpreteEvaluar(evaExpression, sc.ObtenerTipo(evaExpression));
+                numeroCondiciones++;
+        } 
+        else if (numeroCondiciones == 2 && !positivo){
+            String positive = oexpression.get(i) + " ";
+            boolean flag = true;
+                    for (int j = i+1; j < oexpression.length && flag; i++){
+                        if (!oexpression.get(j).contains(instrucciones))
+                            positive += oexpression.get(j) + " ";
+                     else if (oexpression.get(j).contains(instrucciones))
+                        flag = false;
+                    }
+
+        positivo = true;
+        }
+        else if (numeroCondiciones == 2 && positivo){
+            String negative = oexpression.get(i) + " ";
+            boolean flag = true;
+                    for (int j = i+1; j < oexpression.length && flag; i++){
+                        if (!oexpression.get(j).contains(instrucciones))
+                            positive += oexpression.get(j) + " ";
+                        else if (oexpression.get(j).contains(instrucciones))
+                    flag = false;
+                } 
+     }
+     
+     if (interpreteEvaluar(Acondition, sc.ObtenerTipo(Acondition)).equals("verdadero")){
+         interpreteEvaluar(Apositivo, sc.ObtenerTipo(Apositivo));
+     } 
+     else
+    interpreteEvaluar(Anegativo, sc.ObtenerTipo(Anegativo));
+  }
+ }
 }
