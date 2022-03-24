@@ -24,7 +24,6 @@ public class Aritmeticas {
         String[] values = expresion.split(" "); //Separar los valores en la expresion
         
         for(int i = values.length-1; i >= 0; i--){ //Recorrer toda la expresion 
-            System.out.println(values[i]); 
             if(Arrays.asList(operators).contains(values[i])){ //Si es Operador
                 if (stack.count() >= 2){ //Si hay dos o más en la pila es porque se pueden hacer operaciones
 

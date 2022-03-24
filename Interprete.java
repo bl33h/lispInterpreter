@@ -34,10 +34,11 @@ public class Interprete {
         String expresion = "";
             for (String s: oexpression)
                 expresion += s + " ";
+        expresion = findVariables(expresion);
         if (option == 1)
             return newVariable(expresion);
         else if (option == 2)
-            return Operation(expresion) + "";
+            return aritmeticas.Evaluate(expresion) + "";
         else if (option == 3)
             return quote(expresion);
         else if (option == 4)
@@ -89,37 +90,6 @@ public class Interprete {
      * operacion que entrar toda la variable.
      * @param expresion
      */
-     // --- Reordenar y separar ---
-    public int Operation(String expresion) {
-        String newExpresion = "";
-        String variable = "";
-        String[] parts = expresion.split(" ");
-        
-        for (int i = 0; i < parts.length; i++){
-            //Valores de variables
-            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(parts[i]);
-
-            if (matcher.find()){
-                variable = matcher.group().trim();
-                if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
-                    if(verifyVariable(variable) != null)
-                        parts[i] = verifyVariable(variable).toString();
-
-            }
-        }
-        for (int i = 0; i < parts.length; i++)
-            newExpresion += parts[i] + " ";
-                
-        int resultado = aritmeticas.Evaluate(newExpresion);
-        return resultado;
-    }
-    //****************************************************************
-
-    /*****************************************************************
-     * operacion que entrar toda la variable.
-     * @param expresion
-     */
     public String quote(String expresion){
         String expresionFinal ="";
         String[] expresionSplit = expresion.split(" ");
@@ -161,13 +131,12 @@ public class Interprete {
      */
     public String Condicionales(ArrayList<String> oexpression){
         String conditional = "";
-        // Atributos
         String condition = oexpression.get(1) + " ";
         int numeroCondiciones = 0;
         String positive = "";
         String negative = "";
         boolean positivo = false;
-        // Metodos
+
         for (int i = 2; i < oexpression.size(); i++) {
             if (!isHere(getInstrucciones(), oexpression.get(i)) && numeroCondiciones != 2){
                 condition += oexpression.get(i) + " ";
@@ -239,5 +208,28 @@ public class Interprete {
         for (int j = 0; j < splitedExpression.length; j++)
             evaExpression.add(splitedExpression[j]);
         return evaExpression;
+    }
+
+    private String findVariables(String expresion){
+        String newExpresion = "";
+        String variable = "";
+        String[] parts = expresion.split(" ");
+        for (int i = 0; i < parts.length; i++){
+            //Valores de variables
+            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(parts[i]);
+
+            if (matcher.find()){
+                variable = matcher.group().trim();
+                if(!variable.matches("[+-]?\\d*(\\.\\d+)?"))
+                    if(verifyVariable(variable) != null)
+                        parts[i] = verifyVariable(variable).toString();
+
+            }
+        }
+        for (int i = 0; i < parts.length; i++)
+            newExpresion += parts[i] + " ";
+
+        return newExpresion;
     }
 }
