@@ -57,7 +57,7 @@ public class Scan {
 			return 1;
 		else if (datoEvaluar.get(0).contains("+")||datoEvaluar.get(0).contains("-")||datoEvaluar.get(0).contains("*")||datoEvaluar.get(0).contains("/")) //Realizara la operacion aritmetica
 			return 2;
-        else if (datoEvaluar.get(0).contains("'")||datoEvaluar.get(0).contains("quote")) //Realizara la operacion de quote
+        else if (datoEvaluar.get(0).contains("'")||datoEvaluar.get(0).contains("quote")||datoEvaluar.get(0).contains("print")) //Realizara la operacion de quote
 			return 3;
         else if(datoEvaluar.get(0).contains(">"))
             return 4;
@@ -69,6 +69,8 @@ public class Scan {
             return 7;
         else if(datoEvaluar.get(0).contains("List"))
             return 8;
+        else if(datoEvaluar.get(0).contains("Cond"))
+            return 9;
 		else
 			return -1; //De no encontrar la expresion dara  este dato para que sea incorrecta
 	}

@@ -14,12 +14,15 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Interprete {
     //--------------------------- PROPIEDADES --------------------------
-    HashMap<String, Integer> variables = new HashMap<String, Integer>();
-    Aritmeticas aritmeticas = new Aritmeticas();
-    Logicas logicas = new Logicas();
+    private HashMap<String, Integer> variables = new HashMap<String, Integer>();
+    private Aritmeticas aritmeticas = new Aritmeticas();
+    private Logicas logicas = new Logicas();
+    private ArrayList<String> instrucciones = new ArrayList<String>(Arrays.asList("setq", "print", "+", "-", "*", "/", "'", "quote", ">", "<", "equals", "=", "Atom", "List", "Cond", "Defun"));
+    private Scan sc = new Scan();
 
     //--------------------------- METODOS ------------------------------
     /*****************************************************************
@@ -27,9 +30,9 @@ public class Interprete {
      * @param expresion
      * @param option
      */
-    public String operate(ArrayList<String> oexpresion, int option){
+    public String operate(ArrayList<String> oexpression, int option){
         String expresion = "";
-            for (String s: oexpresion)
+            for (String s: oexpression)
                 expresion += s + " ";
         if (option == 1)
             return newVariable(expresion);
@@ -47,9 +50,10 @@ public class Interprete {
             return logicas.isAtom(expresion);
         else if (option == 8)
             return logicas.isList(expresion);
+        else if (option == 9)
+            return Condicionales(oexpression);
         else
-            return null;
-        
+            return "";
     }
     //****************************************************************
 
@@ -57,7 +61,7 @@ public class Interprete {
      * crea una nueva variable entera
      * @param expresion
      */
-    private String newVariable(String expresion){
+    public String newVariable(String expresion){
         String name = "";
         int value = 0;
         
@@ -90,7 +94,6 @@ public class Interprete {
         String newExpresion = "";
         String variable = "";
         String[] parts = expresion.split(" ");
-        System.out.println("Operacion");
         
         for (int i = 0; i < parts.length; i++){
             //Valores de variables
@@ -130,7 +133,7 @@ public class Interprete {
         for(int j = i ; j<=expresionSplit.length-1; j++) {
         	expresionFinal += expresionSplit[j] + " ";
         }
-        return expresionFinal;
+        return expresionFinal.trim();
     }
     //****************************************************************
 
@@ -146,4 +149,95 @@ public class Interprete {
         return variable;
     }
     //****************************************************************
+
+    public ArrayList<String> getInstrucciones(){
+        return this.instrucciones;
+    }
+
+    /*****************************************************************
+     * metodo para condicionales
+     * @param oexpression
+     * @return
+     */
+    public String Condicionales(ArrayList<String> oexpression){
+        String conditional = "";
+        // Atributos
+        String condition = oexpression.get(1) + " ";
+        int numeroCondiciones = 0;
+        String positive = "";
+        String negative = "";
+        boolean positivo = false;
+        // Metodos
+        for (int i = 2; i < oexpression.size(); i++) {
+            if (!isHere(getInstrucciones(), oexpression.get(i)) && numeroCondiciones != 2){
+                condition += oexpression.get(i) + " ";
+                numeroCondiciones++;
+            }
+            else if(numeroCondiciones != 2){ 
+                String expression = oexpression.get(i) + " ";
+                boolean flag = true;
+                int cont = 0;
+                for (int j = i+1; j < oexpression.size() && flag; j++){
+                    if (!isHere(getInstrucciones(),oexpression.get(j))){
+                        expression += oexpression.get(j) + " ";
+                        cont++;
+                    }
+                    else 
+                        flag = false;
+                }    
+                condition += operate(convertToArrayList(expression), sc.obtenerTipo(convertToArrayList(expression)));
+                numeroCondiciones++;
+                i += cont;
+            } 
+            else if (numeroCondiciones == 2 && !positivo){
+                if (isHere(getInstrucciones(),oexpression.get(i)))
+                    positive = oexpression.get(i) + " ";
+                boolean flag = true;
+                int cont = 0;
+                for (int j = i+1; j < oexpression.size() && flag; j++){
+                    if (!isHere(getInstrucciones(),oexpression.get(j))){
+                        positive += oexpression.get(j) + " ";
+                        cont++;
+                    }
+                    else
+                        flag = false;
+                }
+                positivo = true;
+                i += cont;
+            }
+            else if (numeroCondiciones == 2 && positivo){
+                if (isHere(getInstrucciones(),oexpression.get(i)))
+                    negative = oexpression.get(i) + " ";
+                boolean flag = true;
+                for (int j = i+1; j < oexpression.size() && flag; j++){
+                    if (!isHere(getInstrucciones(),oexpression.get(j)))
+                        negative += oexpression.get(j) + " ";
+                    else 
+                        flag = false;
+                }
+                break; 
+            }
+        }
+        if (operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition))).equals("verdadero"))
+            conditional = operate(convertToArrayList(positive), sc.obtenerTipo(convertToArrayList(positive)));
+        else
+            conditional = operate(convertToArrayList(negative), sc.obtenerTipo(convertToArrayList(negative)));
+        return conditional;
+    }
+
+    private boolean isHere(ArrayList<String> collection, String evaluate){
+        boolean here = false;
+        for (int i = 0; i < collection.size() && here == false; i++)
+            if (evaluate.contains(collection.get(i)))
+                here = true;
+        return here;
+    }
+
+    private ArrayList<String> convertToArrayList(String expression){
+        String[] splitedExpression = expression.split(" ");
+        ArrayList<String> evaExpression = new ArrayList<String>();
+        for (int j = 0; j < splitedExpression.length; j++)
+            evaExpression.add(splitedExpression[j]);
+        return evaExpression;
+    }
 }
