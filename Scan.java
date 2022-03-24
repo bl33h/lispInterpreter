@@ -16,9 +16,8 @@ import java.io.FileNotFoundException;
 
 public class Scan {
     //---------------------------PROPIEDADES--------------------------
-    ArrayList<String> tokens;
-    File file = new File("lispProgram.lsp");
-    Scanner scanner;
+    private File file = new File("lispProgram.lsp");
+    private Scanner scanner;
 
     //---------------------------METODOS------------------------------
     /*****************************************************************
@@ -71,6 +70,8 @@ public class Scan {
             return 8;
         else if(datoEvaluar.get(0).contains("Cond"))
             return 9;
+        else if (datoEvaluar.get(0).contains("defun"))
+            return 10;
 		else
 			return -1; //De no encontrar la expresion dara  este dato para que sea incorrecta
 	}

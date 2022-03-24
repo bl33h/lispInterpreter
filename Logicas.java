@@ -10,8 +10,6 @@
     Clase que tiene como fin ser un
  */
 public class Logicas{
-
-    Scan sc = new Scan();
     
     /*****************************************************************
      * Metodo que realizara la igualacion de los parametros ingresados

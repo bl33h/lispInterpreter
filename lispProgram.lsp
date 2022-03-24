@@ -16,3 +16,7 @@
 (List (1 2 3))
 (Cond (equals var + 5 5)(* 6 3)(* 5 6))
 (print var)
+(defun name x,y (print x) (print y))
+(name (var + 5 5))
+(defun fibo x (Cond (equals x 1)(print x)(* x fibo (- x 1) )))
+(fibo (5))

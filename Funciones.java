@@ -12,8 +12,8 @@ import java.util.LinkedHashMap;
     Clase que tiene como fin ser un
  */
 public class Funciones {
-    HashMap<String, String> functions = new HashMap<String, String>();
-    HashMap<String, LinkedHashMap<String, String>> parameters = new HashMap<String, LinkedHashMap<String, String>>();
+    private HashMap<String, String> functions = new HashMap<String, String>();
+    private HashMap<String, LinkedHashMap<String, String>> parameters = new HashMap<String, LinkedHashMap<String, String>>();
 
     public void newFunction(String name, String parameters, String instructions){
         LinkedHashMap<String, String> parametersFunction = new LinkedHashMap<String, String>();

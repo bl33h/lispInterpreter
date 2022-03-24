@@ -10,11 +10,12 @@
     Clase que tiene como fin ser un
  */
 
-import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Interprete {
     //--------------------------- PROPIEDADES --------------------------
@@ -23,6 +24,10 @@ public class Interprete {
     private Logicas logicas = new Logicas();
     private ArrayList<String> instrucciones = new ArrayList<String>(Arrays.asList("setq", "print", "+", "-", "*", "/", "'", "quote", ">", "<", "equals", "=", "Atom", "List", "Cond", "Defun"));
     private Scan sc = new Scan();
+    private HashMap<String, ArrayList<String>> functions = new HashMap<String, ArrayList<String>>();
+    private HashMap<String, LinkedHashMap<String, String>> parameters = new HashMap<String, LinkedHashMap<String, String>>();
+
+    
 
     //--------------------------- METODOS ------------------------------
     /*****************************************************************
@@ -53,10 +58,132 @@ public class Interprete {
             return logicas.isList(expresion);
         else if (option == 9)
             return Condicionales(oexpression);
-        else
+        else if (option == 10){
+            newFunction(convertToArrayList(expresion));
             return "";
+        }
+        else{
+            if (isHere(instrucciones, oexpression.get(0)))
+                return useFunction(convertToArrayList(expresion));
+            else
+                return "";
+        }
     }
     //****************************************************************
+
+    public void newFunction(ArrayList<String> oexpression){
+        String name = oexpression.get(1); 
+        this.instrucciones.add(name);
+        ArrayList<String> instrucciones = new ArrayList<String>();
+        LinkedHashMap<String, String> parametersFunction = new LinkedHashMap<String, String>();
+        String[] parametersSplited = oexpression.get(2).trim().split(",");
+        for(String parameter: parametersSplited)
+            parametersFunction.put(parameter, "");
+        this.parameters.put(name, parametersFunction);
+        for (int i = 3; i < oexpression.size(); i++){
+            String expresion = "";
+            if (isHere(getInstrucciones(), oexpression.get(i))){
+                expresion = oexpression.get(i) + " ";
+                boolean flag = true;
+                int cont = 0;
+                for (int j = i+1; j < oexpression.size() && flag; j++){
+                    if (!isHere(getInstrucciones(),oexpression.get(j))){
+                        expresion += oexpression.get(j) + " ";
+                        cont++;
+                    }
+                    else
+                        flag = false;
+                }
+                i += cont;
+            }
+            instrucciones.add(expresion);
+        }
+        System.out.println("Nombre:" + name);
+        System.out.println("parametros:" + parametersFunction);
+        functions.put(name, instrucciones);
+        for (int i=0; i < instrucciones.size(); i++)
+            System.out.println(instrucciones.get(i));
+    }
+
+    public String useFunction(ArrayList<String> oexpression){
+        String name = oexpression.get(0);
+        String result = "";
+        //---Parametros
+        ArrayList<String> newParameters = new ArrayList<String>();
+        String parameters = "";
+        for (int i = 1; i <oexpression.size(); i++){
+            if (isHere(getInstrucciones(), oexpression.get(i))){
+                String expresion = oexpression.get(i) + " ";
+                boolean flag = true;
+                int cont = 0;
+                for (int j = i+1; j < oexpression.size() && flag; j++){
+                    if (!isHere(getInstrucciones(),oexpression.get(j))){
+                        expresion += oexpression.get(j) + " ";
+                        cont++;
+                    }
+                    else
+                        flag = false;
+                }
+                i += cont;
+                parameters += operate(convertToArrayList(expresion), sc.obtenerTipo(convertToArrayList(expresion)));
+            }
+            else
+                parameters += oexpression.get(i) + " ";
+            
+            
+            newParameters.add(parameters);
+        }
+        //---
+
+        //---Asignacion de parametros
+        String[] parametersSplited = parameters.split(" ");
+        ArrayList<String> instructions = functions.get(name);
+        LinkedHashMap<String, String> parametersFunction = this.parameters.get(name);
+        String instrucciones = "";
+        
+        for (int i = 0; i < instructions.size(); i++){
+            instrucciones += instructions.get(i).trim() + " ";
+        }
+        System.out.println(instrucciones);
+        if(parametersSplited.length == parametersFunction.size()){
+            int i = 0;
+            for(String parameter: parametersFunction.keySet()){
+                parametersFunction.put(parameter, parametersSplited[i]);             
+                instrucciones = instrucciones.replace(parameter, parametersFunction.get(parameter));
+                i++;
+            } 
+        }
+        System.out.println(instrucciones);
+        //---
+
+        ArrayList<String> evaExpression = convertToArrayList(instrucciones);
+        ArrayList<String> newInstructions = new ArrayList<String>();
+
+        System.out.println(evaExpression);
+
+        for (int i = 0; i < evaExpression.size(); i++){
+            String expresion = "";
+            if (isHere(getInstrucciones(), evaExpression.get(i))){
+                expresion = evaExpression.get(i) + " ";
+                boolean flag = true;
+                int cont = 0;
+                for (int j = i+1; j < evaExpression.size() && flag; j++){
+                    if (!isHere(getInstrucciones(),evaExpression.get(j))){
+                        expresion += evaExpression.get(j) + " ";
+                        cont++;
+                    }
+                    else
+                        flag = false;
+                }
+                i += cont;
+            }
+            newInstructions.add(expresion);
+        }
+        for (String ins: newInstructions){
+            result += operate(convertToArrayList(ins), sc.obtenerTipo(convertToArrayList(ins))) + "\n";
+        }
+        return result;
+    }
 
     /*****************************************************************
      * crea una nueva variable entera
@@ -231,5 +358,14 @@ public class Interprete {
             newExpresion += parts[i] + " ";
 
         return newExpresion;
+    }
+
+    private int priority(String expression){
+        if(expression.equals("Cond")){
+            return 3;
+        } else if (expression.equals("*")){
+            return 2;
+        } else
+            return 1;
     }
 }

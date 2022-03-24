@@ -12,7 +12,7 @@
 
 import java.util.Vector;
 
-public class Stack <T> implements IStack <T>{ 
+public class Stack <T>{ 
 
     //---------------------------PROPIEDADES--------------------------
     private Vector<T> vector;
@@ -30,7 +30,6 @@ public class Stack <T> implements IStack <T>{
      * push: agrega un elemento genérico
      * @param value 
      */
-    @Override
     public void push(T value) {
         vector.add(value);
     }
@@ -40,7 +39,6 @@ public class Stack <T> implements IStack <T>{
      * pull: retorna el último valor ingresado y lo elimina de la pila
      * @return T
      */
-    @Override
     public T pull() {
         T value;
         if (isEmpty()) //Si la pila está vacía
@@ -57,7 +55,6 @@ public class Stack <T> implements IStack <T>{
      * peek: retorna el último valor de la pila
      * @return T
      */
-    @Override
     public T peek() {
         return vector.lastElement();
     }
@@ -67,7 +64,6 @@ public class Stack <T> implements IStack <T>{
      * count: retorna el número de elementos en la pila
      * @return int
      */
-    @Override
     public int count() {
         return vector.size();
     }
@@ -77,7 +73,6 @@ public class Stack <T> implements IStack <T>{
      * isEmpty: retorna el estado de la pila
      * @return boolean
      */
-    @Override
     public boolean isEmpty() {
         return vector.isEmpty();
     }
