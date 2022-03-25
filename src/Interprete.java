@@ -175,7 +175,7 @@ public class Interprete {
             } 
         }
         //---
-
+        //System.out.println(instrucciones);
         //--- Realizar acciones
         ArrayList<String> evaExpression = convertToArrayList(instrucciones);
         ArrayList<String> newInstructions = new ArrayList<String>();

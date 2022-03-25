@@ -20,5 +20,5 @@
 (print var)
 (defun name x,y (print x) (print y))
 (name (var 5))
-(defun fact x (Cond (equals x 0) (print 1) (* x fact (- 1 x))))
+(defun fact x (Cond (equals x 1) (print 1) (* x fact (- 1 x))))
 (fact (6))
