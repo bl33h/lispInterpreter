@@ -32,7 +32,7 @@ public class Scan {
      * 
      */
     public void Bienvenida(){
-        System.out.println("Bienvenido a su interprete de lisp" + "\n" + "\n" + "Porfavor ingrese su operacion a realizar");
+        System.out.println("Bienvenido a su interprete de lisp" + "\n" + "\n");
     }
     //****************************************************************
 

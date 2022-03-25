@@ -19,61 +19,66 @@ import java.util.LinkedHashMap;
 
 public class Interprete {
     //--------------------------- PROPIEDADES --------------------------
-    private HashMap<String, Integer> variables = new HashMap<String, Integer>();
+    private HashMap<String, String> variables = new HashMap<String, String>();
     private Aritmeticas aritmeticas = new Aritmeticas();
     private Logicas logicas = new Logicas();
     private ArrayList<String> instrucciones = new ArrayList<String>(Arrays.asList("setq", "print", "+", "-", "*", "/", "'", "quote", ">", "<", "equals", "=", "Atom", "List", "Cond", "Defun"));
+    private ArrayList<String> nameFunctions = new ArrayList<String>();
     private Scan sc = new Scan();
     private HashMap<String, ArrayList<String>> functions = new HashMap<String, ArrayList<String>>();
     private HashMap<String, LinkedHashMap<String, String>> parameters = new HashMap<String, LinkedHashMap<String, String>>();
-
-    
+    private boolean end = false;
+    private int instruccionesCreadas = 1;
 
     //--------------------------- METODOS ------------------------------
     /*****************************************************************
-     * recibe una expresion y una opcion según dicha expresion
+     * recibe una expresion y una opcion segun dicha expresion
      * @param expresion
      * @param option
      */
     public String operate(ArrayList<String> oexpression, int option){
-        String expresion = "";
-            for (String s: oexpression)
-                expresion += s + " ";
-        expresion = findVariables(expresion);
-        if (option == 1)
-            return newVariable(expresion);
-        else if (option == 2)
-            return aritmeticas.Evaluate(expresion) + "";
-        else if (option == 3)
-            return quote(expresion);
-        else if (option == 4)
-            return logicas.mayorComparar(expresion);
-        else if (option == 5)
-            return logicas.menorComparar(expresion);
-        else if (option == 6)
-            return logicas.equals(expresion);
-        else if (option == 7)
-            return logicas.isAtom(expresion);
-        else if (option == 8)
-            return logicas.isList(expresion);
-        else if (option == 9)
-            return Condicionales(oexpression);
-        else if (option == 10){
-            newFunction(convertToArrayList(expresion));
-            return "";
-        }
-        else{
-            if (isHere(instrucciones, oexpression.get(0)))
-                return useFunction(convertToArrayList(expresion));
-            else
+        if (!end){
+            String expresion = "";
+                for (String s: oexpression)
+                    expresion += s + " ";
+            expresion = findVariables(expresion);
+            if (option == 1)
+                return newVariable(oexpression);
+            else if (option == 2)
+                return aritmeticas.Evaluate(expresion) + "";
+            else if (option == 3)
+                return quote(expresion);
+            else if (option == 4)
+                return logicas.mayorComparar(expresion);
+            else if (option == 5)
+                return logicas.menorComparar(expresion);
+            else if (option == 6)
+                return logicas.equals(expresion);
+            else if (option == 7)
+                return logicas.isAtom(expresion);
+            else if (option == 8)
+                return logicas.isList(expresion);
+            else if (option == 9)
+                return Condicionales(oexpression);
+            else if (option == 10){
+                newFunction(convertToArrayList(expresion));
                 return "";
+            }
+            else{
+                if (isHere(instrucciones, oexpression.get(0)))
+                    return useFunction(convertToArrayList(expresion));
+                else
+                    return "ERROR: Ha ingresado una instrucción inválida";
+            }
         }
+        else return "-----------";
     }
     //****************************************************************
 
     public void newFunction(ArrayList<String> oexpression){
         String name = oexpression.get(1); 
         this.instrucciones.add(name);
+        nameFunctions.add(name);
         ArrayList<String> instrucciones = new ArrayList<String>();
         LinkedHashMap<String, String> parametersFunction = new LinkedHashMap<String, String>();
         String[] parametersSplited = oexpression.get(2).trim().split(",");
@@ -98,11 +103,8 @@ public class Interprete {
             }
             instrucciones.add(expresion);
         }
-        System.out.println("Nombre:" + name);
-        System.out.println("parametros:" + parametersFunction);
+
         functions.put(name, instrucciones);
-        for (int i=0; i < instrucciones.size(); i++)
-            System.out.println(instrucciones.get(i));
     }
 
     public String useFunction(ArrayList<String> oexpression){
@@ -144,7 +146,7 @@ public class Interprete {
         for (int i = 0; i < instructions.size(); i++){
             instrucciones += instructions.get(i).trim() + " ";
         }
-        System.out.println(instrucciones);
+
         if(parametersSplited.length == parametersFunction.size()){
             int i = 0;
             for(String parameter: parametersFunction.keySet()){
@@ -153,35 +155,45 @@ public class Interprete {
                 i++;
             } 
         }
-        System.out.println(instrucciones);
         //---
 
+        
+        //--- Realizar acciones
         ArrayList<String> evaExpression = convertToArrayList(instrucciones);
         ArrayList<String> newInstructions = new ArrayList<String>();
-
-        System.out.println(evaExpression);
-
         for (int i = 0; i < evaExpression.size(); i++){
             String expresion = "";
             if (isHere(getInstrucciones(), evaExpression.get(i))){
-                expresion = evaExpression.get(i) + " ";
-                boolean flag = true;
-                int cont = 0;
-                for (int j = i+1; j < evaExpression.size() && flag; j++){
-                    if (!isHere(getInstrucciones(),evaExpression.get(j))){
-                        expresion += evaExpression.get(j) + " ";
-                        cont++;
+                if (evaExpression.get(i).equals("Cond")){
+                    String condition = "";
+                    for (int j = i; j < evaExpression.size(); j++){
+                        condition += evaExpression.get(j) + " ";
                     }
-                    else
-                        flag = false;
+                    expresion += operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition)));
+                    i = evaExpression.size();
+                    end = true;
+                } else{
+                    expresion = evaExpression.get(i) + " ";
+                    boolean flag = true;
+                    int cont = 0;
+                    for (int j = i+1; j < evaExpression.size() && flag; j++){
+                        if (!isHere(getInstrucciones(),evaExpression.get(j))){
+                            expresion += evaExpression.get(j) + " ";
+                            cont++;
+                        }
+                        else
+                            flag = false;
+                    }
+                    i += cont;
                 }
-                i += cont;
             }
             newInstructions.add(expresion);
         }
         for (String ins: newInstructions){
             result += operate(convertToArrayList(ins), sc.obtenerTipo(convertToArrayList(ins))) + "\n";
         }
+        //---
+
         return result;
     }
 
@@ -189,24 +201,22 @@ public class Interprete {
      * crea una nueva variable entera
      * @param expresion
      */
-    public String newVariable(String expresion){
-        String name = "";
-        int value = 0;
-        
-        //Nombre de la variable
-        Pattern pattern = Pattern.compile("[ ]+[a-z]+[ ]+", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(expresion);
-        if (matcher.find()) 
-            name = matcher.group().trim();
-        
-        
-        //Valor de la variable
-        pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); 
-        matcher = pattern.matcher(expresion);
-        if (matcher.find())
-            value = Integer.parseInt(matcher.group().trim());
-        
-        
+    public String newVariable(ArrayList<String> expresion){
+        String name = expresion.get(1);
+        String value = "";
+        for (int i = 2; i < expresion.size(); i++){
+            String operation = "";
+            if (isHere(instrucciones, expresion.get(i))){
+                for (int j = i; j < expresion.size(); j++){
+                    operation += expresion.get(j) + " ";
+                }
+                value = operate(convertToArrayList(operation), sc.obtenerTipo(convertToArrayList(operation)));
+                i = expresion.size();
+            }
+            else 
+                value = expresion.get(i);
+        }
+
        //Instanciar la variable y agregarla al arreglo dinámico
        variables.put(name, value);
        return name +": " + value;
@@ -239,17 +249,22 @@ public class Interprete {
      * @param name
      * @return
      */
-    private Integer verifyVariable(String name){
-        Integer variable = null;
+    private String verifyVariable(String name){
+        String variable = null;
         if(variables.containsKey(name))
             variable = variables.get(name);
         return variable;
     }
     //****************************************************************
 
+    /*****************************************************************
+     * devuelve las instrucciones
+     * @return
+     */
     public ArrayList<String> getInstrucciones(){
         return this.instrucciones;
     }
+    //****************************************************************
 
     /*****************************************************************
      * metodo para condicionales
@@ -263,8 +278,12 @@ public class Interprete {
         String positive = "";
         String negative = "";
         boolean positivo = false;
+        boolean optimizar = false;
 
         for (int i = 2; i < oexpression.size(); i++) {
+            if (numeroCondiciones == 2)
+                if (operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition))).equals("verdadero"))
+                    optimizar = true;
             if (!isHere(getInstrucciones(), oexpression.get(i)) && numeroCondiciones != 2){
                 condition += oexpression.get(i) + " ";
                 numeroCondiciones++;
@@ -285,6 +304,8 @@ public class Interprete {
                 numeroCondiciones++;
                 i += cont;
             } 
+            
+                
             else if (numeroCondiciones == 2 && !positivo){
                 if (isHere(getInstrucciones(),oexpression.get(i)))
                     positive = oexpression.get(i) + " ";
@@ -301,17 +322,24 @@ public class Interprete {
                 positivo = true;
                 i += cont;
             }
-            else if (numeroCondiciones == 2 && positivo){
+            else if (numeroCondiciones == 2 && positivo && !optimizar){
                 if (isHere(getInstrucciones(),oexpression.get(i)))
                     negative = oexpression.get(i) + " ";
-                boolean flag = true;
-                for (int j = i+1; j < oexpression.size() && flag; j++){
-                    if (!isHere(getInstrucciones(),oexpression.get(j)))
+                String function = "";
+                for (int j = i+1; j < oexpression.size(); j++){
+                    if (isHere(instrucciones, oexpression.get(j))){
+                        for (int k = j; k < oexpression.size(); k++){
+                            function += oexpression.get(k) + " ";
+                        }
+                        instruccionesCreadas *= Integer.parseInt(oexpression.get(j+2));
+                        System.out.println(instruccionesCreadas);
+                        negative += operate(convertToArrayList(function), sc.obtenerTipo(convertToArrayList(function)));
+                    }
+                    else{
                         negative += oexpression.get(j) + " ";
-                    else 
-                        flag = false;
+                    }
                 }
-                break; 
+                break;
             }
         }
         if (operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition))).equals("verdadero"))
@@ -343,7 +371,7 @@ public class Interprete {
         String[] parts = expresion.split(" ");
         for (int i = 0; i < parts.length; i++){
             //Valores de variables
-            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE);
+            Pattern pattern = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); 
             Matcher matcher = pattern.matcher(parts[i]);
 
             if (matcher.find()){
@@ -358,14 +386,5 @@ public class Interprete {
             newExpresion += parts[i] + " ";
 
         return newExpresion;
-    }
-
-    private int priority(String expression){
-        if(expression.equals("Cond")){
-            return 3;
-        } else if (expression.equals("*")){
-            return 2;
-        } else
-            return 1;
     }
 }

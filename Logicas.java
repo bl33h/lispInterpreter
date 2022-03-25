@@ -10,7 +10,6 @@
     Clase que tiene como fin ser un
  */
 public class Logicas{
-    
     /*****************************************************************
      * Metodo que realizara la igualacion de los parametros ingresados
      * @param valor Uno de los parametros a comparar
@@ -41,7 +40,7 @@ public class Logicas{
     }
     //****************************************************************
 
-        /*****************************************************************
+    /*****************************************************************
      * Metodo que realizara la verificacion si el numero es menor que el otro
      * @param expresion traera los 2 numeros a comparar
      * @return comparacion de si es verdadero o no la operacion realizada
@@ -142,6 +141,4 @@ public class Logicas{
         return list;
     }
     //****************************************************************
-
-    
 }

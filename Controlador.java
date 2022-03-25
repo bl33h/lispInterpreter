@@ -23,17 +23,16 @@ public class Controlador{
         //Lectura y separación por tokens
         for (String s: expresions)
             tokens.add(sc.tokens(s));
-        System.out.println(tokens);
 
         //Evaluate
         for (ArrayList<String> al: tokens){
-            System.out.println(al);
             String expresion = "";
             for (String s: al)
                 expresion += s + " ";
-            System.out.println(expresion);
+            sc.escribir(expresion);
             variable = miInterprete.operate(al, sc.obtenerTipo(al));
             sc.escribir(variable.toString());
+            sc.escribir("\n");
         }
         
     }
