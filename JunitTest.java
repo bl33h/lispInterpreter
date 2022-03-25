@@ -18,6 +18,7 @@ class JunitTest {
 	private ArrayList<ArrayList<String>> tokens = new ArrayList<ArrayList<String>>();
 	private Scan sc = new Scan();
 	private String variable;
+	private Funciones fun = new Funciones();
 
 	@Test
 	void test_Suma() {
@@ -202,13 +203,47 @@ class JunitTest {
 	}
 	
 	@Test
-	void test_Defun() {
-		
+	void test_Defun_norm() {
+		expresiones.add("(defun name x (print x)");
+		expresiones.add("(name (5)");
+		for (String s: expresiones)
+            tokens.add(sc.tokens(s));
+
+        //Evaluate
+        for (ArrayList<String> al: tokens){
+            String expresion = "";
+            for (String s: al)
+                expresion += s + " ";
+            variable = inter.operate(al, sc.obtenerTipo(al));
+        }
+		assertEquals("5"+ "\n", variable.toString());
 	}
 	
 	@Test
+	void test_Defun_Recur() {
+		expresiones.add("(defun fact x (Cond (equals x 0) (print 1) (* x fact (- 1 x))))");
+		expresiones.add("(fact (6)");
+		for (String s: expresiones)
+            tokens.add(sc.tokens(s));
+
+        //Evaluate
+        for (ArrayList<String> al: tokens){
+            String expresion = "";
+            for (String s: al)
+                expresion += s + " ";
+            variable = inter.operate(al, sc.obtenerTipo(al));
+        }
+		assertEquals("720"+ "\n", variable.toString());
+	}
+	
+	
+	@Test
 	void test_Set() {
-		assertEquals("car: 10", inter.newVariable("setq car 10"));
+		ArrayList<String> arr = new ArrayList<String>();
+		arr.add("setq");
+		arr.add("car");
+		arr.add("10");
+		assertEquals("car: 10", inter.newVariable(arr));
 	}
 	
 	@Test
