@@ -20,17 +20,19 @@ public class Controlador{
         
         sc.Bienvenida();
         ArrayList<String> expresions = sc.read();
-        //Lectura y separación por tokens
+        //Read
         for (String s: expresions)
             tokens.add(sc.tokens(s));
 
-        //Evaluate
+        //Loop
         for (ArrayList<String> al: tokens){
             String expresion = "";
             for (String s: al)
                 expresion += s + " ";
             sc.escribir(expresion);
+            //Evaluate
             variable = miInterprete.operate(al, sc.obtenerTipo(al));
+            //Print
             sc.escribir(variable.toString());
             sc.escribir("\n");
         }
