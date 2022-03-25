@@ -26,15 +26,18 @@ public class Controlador{
 
         //Loop
         for (ArrayList<String> al: tokens){
-            String expresion = "";
-            for (String s: al)
-                expresion += s + " ";
-            sc.escribir(expresion);
-            //Evaluate
-            variable = miInterprete.operate(al, sc.obtenerTipo(al));
-            //Print
-            sc.escribir(variable.toString());
-            sc.escribir("\n");
+            if (al != null){
+                String expresion = "";
+                for (String s: al)
+                    expresion += s + " ";
+                sc.escribir(expresion);
+                //Evaluate
+                variable = miInterprete.operate(al, sc.obtenerTipo(al));
+                //Print
+                sc.escribir(variable.toString());
+                sc.escribir("\n");
+            } else
+                sc.escribir("ERROR: Ha agregado una cantidad incorrecta de parentesis");
         }
         
     }

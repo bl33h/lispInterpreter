@@ -120,23 +120,24 @@ public class Scan {
         ArrayList<String> new_Expressions = new ArrayList<String>();
         ArrayList<Character> chars = new ArrayList<Character>();
         chars.addAll(stringToChar(expressions));
-    
-        for (Character actualChar: chars){
-            if(actualChar == '(');
-            else{
-                if(actualChar == ')'){
-                    if(temp !=""){
-                        new_Expressions.add(temp);
-                        temp = "";
-                    }
-                }
+        if(verifyTokens(chars)){
+            for (Character actualChar: chars){
+                if(actualChar == '(');
                 else{
-                    if (actualChar != ' ')
-                        temp += actualChar+"";
-                    else{
-                        if(temp != ""){
+                    if(actualChar == ')'){
+                        if(temp !=""){
                             new_Expressions.add(temp);
                             temp = "";
+                        }
+                    }
+                    else{
+                        if (actualChar != ' ')
+                            temp += actualChar+"";
+                        else{
+                            if(temp != ""){
+                                new_Expressions.add(temp);
+                                temp = "";
+                            }
                         }
                     }
                 }
@@ -145,4 +146,17 @@ public class Scan {
         return new_Expressions;
     }
     //****************************************************************
+
+    private boolean verifyTokens(ArrayList<Character> expression){
+        int init = 0;
+        int fin = 0;
+        for (Character character : expression) {
+            if(character.equals('('))
+                init++;
+            else
+                if(character.equals(')'))
+                    fin++;
+        }
+        return init==fin;
+    }
 }
