@@ -6,7 +6,7 @@
  * @author Jose Pablo Kiesling, Fabian Juarez y Sara Echeverria
  * @version:
         - Creacion: 26/02/2022
-        - Ultima modificacion:
+        - Ultima modificacion: 25/03/2022
  */
 
 import java.util.ArrayList;

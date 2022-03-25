@@ -12,9 +12,17 @@ import java.util.LinkedHashMap;
     Clase que tiene como fin ser un
  */
 public class Funciones {
+    //--------------------------- PROPIEDADES --------------------------
     private HashMap<String, String> functions = new HashMap<String, String>();
     private HashMap<String, LinkedHashMap<String, String>> parameters = new HashMap<String, LinkedHashMap<String, String>>();
 
+    //--------------------------- METODOS ------------------------------
+    /*******************************************************************
+     * crea una funcion
+     * @param name
+     * @param parameters
+     * @param instructions
+     */
     public void newFunction(String name, String parameters, String instructions){
         LinkedHashMap<String, String> parametersFunction = new LinkedHashMap<String, String>();
         String[] parametersSplited = parameters.trim().split(",");
@@ -23,7 +31,14 @@ public class Funciones {
         this.parameters.put(name, parametersFunction);
         functions.put(name, instructions);
     }
+    //******************************************************************
 
+    /*******************************************************************
+     * metodo que usa una funcion creada
+     * @param name
+     * @param parameters
+     * @return
+     */
     public String useFunction(String name, String parameters){
         String translate = "";
         String[] parametersSplited = parameters.trim().split(",");
@@ -42,4 +57,5 @@ public class Funciones {
         }
         return translate;
     } 
+    //******************************************************************
 }

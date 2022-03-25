@@ -31,7 +31,7 @@ public class Interprete {
     private int instruccionesCreadas = 1;
 
     //--------------------------- METODOS ------------------------------
-    /*****************************************************************
+    /*******************************************************************
      * recibe una expresion y una opcion segun dicha expresion
      * @param expresion
      * @param option
@@ -41,50 +41,62 @@ public class Interprete {
             String expresion = "";
                 for (String s: oexpression)
                     expresion += s + " ";
-            expresion = findVariables(expresion);
-            if (option == 1)
-                return newVariable(oexpression);
-            else if (option == 2)
-                return aritmeticas.Evaluate(expresion) + "";
-            else if (option == 3)
-                return quote(expresion);
-            else if (option == 4)
-                return logicas.mayorComparar(expresion);
-            else if (option == 5)
-                return logicas.menorComparar(expresion);
-            else if (option == 6)
-                return logicas.equals(expresion);
-            else if (option == 7)
-                return logicas.isAtom(expresion);
-            else if (option == 8)
-                return logicas.isList(expresion);
-            else if (option == 9)
-                return Condicionales(oexpression);
-            else if (option == 10){
-                newFunction(convertToArrayList(expresion));
-                return "";
+            if(findVariables(expresion) != null){
+                expresion = findVariables(expresion);
+                if (option == 1)
+                    return newVariable(oexpression);
+                else if (option == 2)
+                    return aritmeticas.Evaluate(expresion) + "";
+                else if (option == 3)
+                    return quote(expresion);
+                else if (option == 4)
+                    return logicas.mayorComparar(expresion);
+                else if (option == 5)
+                    return logicas.menorComparar(expresion);
+                else if (option == 6)
+                    return logicas.equals(expresion);
+                else if (option == 7)
+                    return logicas.isAtom(expresion);
+                else if (option == 8)
+                    return logicas.isList(expresion);
+                else if (option == 9)
+                    return Condicionales(oexpression);
+                else if (option == 10){
+                    newFunction(convertToArrayList(expresion));
+                    return "";
+                }
+                else{
+                    if (isHere(instrucciones, oexpression.get(0)))
+                        return useFunction(convertToArrayList(expresion));
+                    else
+                        return "ERROR: Ha ingresado una instrucción inválida";
+                }
             }
-            else{
-                if (isHere(instrucciones, oexpression.get(0)))
-                    return useFunction(convertToArrayList(expresion));
-                else
-                    return "ERROR: Ha ingresado una instrucción inválida";
-            }
+            else 
+                    return "ERROR: La variable no ha sido creada";
         }
-        else return "-----------";
+        else{
+            return "-----------";
+        }
     }
     //****************************************************************
 
+    /*****************************************************************
+     * crea una funcion
+     * @param oexpression
+     */
     public void newFunction(ArrayList<String> oexpression){
         String name = oexpression.get(1); 
-        this.instrucciones.add(name);
+        this.instrucciones.add(name); //Agregar la funcion a una instruccion valida
         nameFunctions.add(name);
         ArrayList<String> instrucciones = new ArrayList<String>();
         LinkedHashMap<String, String> parametersFunction = new LinkedHashMap<String, String>();
-        String[] parametersSplited = oexpression.get(2).trim().split(",");
+        String[] parametersSplited = oexpression.get(2).trim().split(","); //Parametros
         for(String parameter: parametersSplited)
-            parametersFunction.put(parameter, "");
+            parametersFunction.put(parameter, ""); //Indicar variables de la funcion
         this.parameters.put(name, parametersFunction);
+
+        //Ver si hay otras instrucciones
         for (int i = 3; i < oexpression.size(); i++){
             String expresion = "";
             if (isHere(getInstrucciones(), oexpression.get(i))){
@@ -104,12 +116,19 @@ public class Interprete {
             instrucciones.add(expresion);
         }
 
-        functions.put(name, instrucciones);
+        functions.put(name, instrucciones); //Agregar la funcion
     }
+    //****************************************************************
 
+    /*****************************************************************
+     * metodo que usa una funcion creada
+     * @param oexpression
+     * @return
+     */
     public String useFunction(ArrayList<String> oexpression){
         String name = oexpression.get(0);
         String result = "";
+
         //---Parametros
         ArrayList<String> newParameters = new ArrayList<String>();
         String parameters = "";
@@ -127,13 +146,12 @@ public class Interprete {
                         flag = false;
                 }
                 i += cont;
-                parameters += operate(convertToArrayList(expresion), sc.obtenerTipo(convertToArrayList(expresion)));
+                parameters += operate(convertToArrayList(expresion), sc.obtenerTipo(convertToArrayList(expresion))); //Operar parametros
             }
             else
                 parameters += oexpression.get(i) + " ";
-            
-            
-            newParameters.add(parameters);
+
+            newParameters.add(parameters); //Añadir parametros
         }
         //---
 
@@ -143,13 +161,14 @@ public class Interprete {
         LinkedHashMap<String, String> parametersFunction = this.parameters.get(name);
         String instrucciones = "";
         
+        //Separar instrucciones
         for (int i = 0; i < instructions.size(); i++){
             instrucciones += instructions.get(i).trim() + " ";
         }
 
         if(parametersSplited.length == parametersFunction.size()){
             int i = 0;
-            for(String parameter: parametersFunction.keySet()){
+            for(String parameter: parametersFunction.keySet()){ //Reemplazar parametros
                 parametersFunction.put(parameter, parametersSplited[i]);             
                 instrucciones = instrucciones.replace(parameter, parametersFunction.get(parameter));
                 i++;
@@ -157,11 +176,10 @@ public class Interprete {
         }
         //---
 
-        
         //--- Realizar acciones
         ArrayList<String> evaExpression = convertToArrayList(instrucciones);
         ArrayList<String> newInstructions = new ArrayList<String>();
-        for (int i = 0; i < evaExpression.size(); i++){
+        for (int i = 0; i < evaExpression.size(); i++){ //Recorrer la expresion a evaluar
             String expresion = "";
             if (isHere(getInstrucciones(), evaExpression.get(i))){
                 if (evaExpression.get(i).equals("Cond")){
@@ -169,9 +187,9 @@ public class Interprete {
                     for (int j = i; j < evaExpression.size(); j++){
                         condition += evaExpression.get(j) + " ";
                     }
-                    expresion += operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition)));
+                    expresion += operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition))); //Operar condiciones
                     i = evaExpression.size();
-                    end = true;
+                    end = true; //Se acaba la funcion
                 } else{
                     expresion = evaExpression.get(i) + " ";
                     boolean flag = true;
@@ -187,15 +205,17 @@ public class Interprete {
                     i += cont;
                 }
             }
-            newInstructions.add(expresion);
+            newInstructions.add(expresion); //Añadir todas las instrucciones que ya fueron analizadas
         }
-        for (String ins: newInstructions){
+        for (String ins: newInstructions) //Agregar 
             result += operate(convertToArrayList(ins), sc.obtenerTipo(convertToArrayList(ins))) + "\n";
-        }
         //---
-
+        if (instruccionesCreadas != 1){
+            result = instruccionesCreadas + "\n";
+        }
         return result;
     }
+    //****************************************************************
 
     /*****************************************************************
      * crea una nueva variable entera
@@ -281,9 +301,13 @@ public class Interprete {
         boolean optimizar = false;
 
         for (int i = 2; i < oexpression.size(); i++) {
+
+            //Optimizar la condicion
             if (numeroCondiciones == 2)
                 if (operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition))).equals("verdadero"))
                     optimizar = true;
+            
+            //--- Condicion
             if (!isHere(getInstrucciones(), oexpression.get(i)) && numeroCondiciones != 2){
                 condition += oexpression.get(i) + " ";
                 numeroCondiciones++;
@@ -305,7 +329,7 @@ public class Interprete {
                 i += cont;
             } 
             
-                
+            //Expresion positiva    
             else if (numeroCondiciones == 2 && !positivo){
                 if (isHere(getInstrucciones(),oexpression.get(i)))
                     positive = oexpression.get(i) + " ";
@@ -322,6 +346,8 @@ public class Interprete {
                 positivo = true;
                 i += cont;
             }
+
+            //Expresion negativa
             else if (numeroCondiciones == 2 && positivo && !optimizar){
                 if (isHere(getInstrucciones(),oexpression.get(i)))
                     negative = oexpression.get(i) + " ";
@@ -332,7 +358,6 @@ public class Interprete {
                             function += oexpression.get(k) + " ";
                         }
                         instruccionesCreadas *= Integer.parseInt(oexpression.get(j+2));
-                        System.out.println(instruccionesCreadas);
                         negative += operate(convertToArrayList(function), sc.obtenerTipo(convertToArrayList(function)));
                     }
                     else{
@@ -343,12 +368,19 @@ public class Interprete {
             }
         }
         if (operate(convertToArrayList(condition), sc.obtenerTipo(convertToArrayList(condition))).equals("verdadero"))
-            conditional = operate(convertToArrayList(positive), sc.obtenerTipo(convertToArrayList(positive)));
+            conditional = operate(convertToArrayList(positive), sc.obtenerTipo(convertToArrayList(positive))); //Condicion positiva
         else
-            conditional = operate(convertToArrayList(negative), sc.obtenerTipo(convertToArrayList(negative)));
+            conditional = operate(convertToArrayList(negative), sc.obtenerTipo(convertToArrayList(negative))); //Condicion negativa
         return conditional;
     }
+    //****************************************************************
 
+    /*****************************************************************
+     * verificar si es una instruccion
+     * @param collection
+     * @param evaluate
+     * @return
+     */
     private boolean isHere(ArrayList<String> collection, String evaluate){
         boolean here = false;
         for (int i = 0; i < collection.size() && here == false; i++)
@@ -356,7 +388,13 @@ public class Interprete {
                 here = true;
         return here;
     }
+    //****************************************************************
 
+    /*****************************************************************
+     * convertir un string a un arraylist
+     * @param expression
+     * @return
+     */
     private ArrayList<String> convertToArrayList(String expression){
         String[] splitedExpression = expression.split(" ");
         ArrayList<String> evaExpression = new ArrayList<String>();
@@ -364,7 +402,13 @@ public class Interprete {
             evaExpression.add(splitedExpression[j]);
         return evaExpression;
     }
+    //****************************************************************
 
+    /*****************************************************************
+     * encontrar las variables en una expresion y convertirlas a su valor
+     * @param expresion
+     * @return
+     */
     private String findVariables(String expresion){
         String newExpresion = "";
         String variable = "";
@@ -387,4 +431,5 @@ public class Interprete {
 
         return newExpresion;
     }
+    //****************************************************************
 }

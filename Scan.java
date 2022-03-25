@@ -77,6 +77,10 @@ public class Scan {
 	}
     //****************************************************************
 
+    /*****************************************************************
+     * lee el archivo de lisp
+     * @return
+     */
     public ArrayList<String> read(){
         ArrayList<String> expressions = new ArrayList<String>();
         try {
@@ -91,14 +95,26 @@ public class Scan {
         }
         return expressions;
     }
+    //****************************************************************
 
+    /*****************************************************************
+     * convierte un string a un arreglo de characters
+     * @param expression
+     * @return
+     */
     private ArrayList<Character> stringToChar(String expression){
         ArrayList<Character> chars = new ArrayList<Character>();
         for(int i = 0; i < expression.length(); i++)
                 chars.add(expression.charAt(i));
         return chars;
     }
+    //****************************************************************
 
+    /*****************************************************************
+     * crea los tokens en la expresion
+     * @param expressions
+     * @return
+     */
     public ArrayList<String> tokens(String expressions){
         String temp = "";
         ArrayList<String> new_Expressions = new ArrayList<String>();
@@ -128,4 +144,5 @@ public class Scan {
         }
         return new_Expressions;
     }
+    //****************************************************************
 }

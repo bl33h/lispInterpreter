@@ -6,7 +6,7 @@
  * @author Jose Pablo Kiesling, Fabian Juarez y Sara Echeverria
  * @version:
         - Creacion: 01/03/2022
-        - Ultima modificacion:
+        - Ultima modificacion: 25/03/2022
     JCF que servirá por sus operaciones a la optimización de código
  */
 

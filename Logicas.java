@@ -10,6 +10,8 @@
     Clase que tiene como fin ser un
  */
 public class Logicas{
+
+    //---------------------------METODOS------------------------------
     /*****************************************************************
      * Metodo que realizara la igualacion de los parametros ingresados
      * @param valor Uno de los parametros a comparar
