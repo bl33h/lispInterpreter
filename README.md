@@ -1,5 +1,5 @@
 # lispInterpreter
-A interpreter that analyzes a code in LISP and executes it. Uses JCF to optimize the operations. Also uses MVC pattern.
+The interpreter project is designed to analyze and execute code written in the LISP programming language. It follows the Model-View-Controller (MVC) pattern to organize its components and ensure separation of concerns. The project utilizes Java Collections Framework (JCF) to optimize the operations performed during the interpretation process.
 
 <p align="center">
   <br>
@@ -29,7 +29,7 @@ The main features of the application include:
 - Separation of Concerns: The code is organized into different classes, each responsible for a specific functionality. This promotes modularity and separation of concerns, making the code easier to understand, maintain, and extend.
 
 ## How To Use
-To clone and run this application, you'll need [Git](https://git-scm.com) installed on your computer. From your command line:
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Java](https://www.java.com/es/download/ie_manual.jsp) installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
