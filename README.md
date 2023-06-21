@@ -1,5 +1,5 @@
 # lispInterpreter
-A interpreter that analyzes a code in LISP and executes it. Uses JCF to optimize the operations. Also use MVC pattern.
+A interpreter that analyzes a code in LISP and executes it. Uses JCF to optimize the operations. Also uses MVC pattern.
 
 <p align="center">
   <br>
@@ -21,7 +21,12 @@ A interpreter that analyzes a code in LISP and executes it. Uses JCF to optimize
 
 ## Features
 The main features of the application include:
-
+- Arithmetic Operations: The project supports basic arithmetic operations such as addition, subtraction, multiplication, and division. It can evaluate arithmetic expressions and provide the result.
+- Logical Operations: The project also includes support for logical operations such as equality checks, less than comparisons, and greater than comparisons. It can evaluate logical expressions and determine the truth value of the expression.
+- Input/Output: The project allows user interaction through input and output. It provides a welcome message and prompts the user to enter expressions. The results of the evaluated expressions are displayed as output.
+- Error Handling: The code includes some basic error handling. It checks for incorrect expression formats, missing operands, and division by zero. Error messages are displayed when such issues are encountered.
+- Tokenization: The expressions entered by the user are tokenized, which means they are split into individual elements or tokens. This allows for easier processing and evaluation of the expressions.
+- Separation of Concerns: The code is organized into different classes, each responsible for a specific functionality. This promotes modularity and separation of concerns, making the code easier to understand, maintain, and extend.
 
 ## How To Use
 To clone and run this application, you'll need [Git](https://git-scm.com) installed on your computer. From your command line:
@@ -30,6 +35,9 @@ To clone and run this application, you'll need [Git](https://git-scm.com) instal
 # Clone this repository
 $ git clone https://github.com/bl33h/lispInterpreter
 
+# Run de app
+$ javac *.java
+$ java Controlador
 ```
 
 Note: to execute the code, it's important that run only on this location
